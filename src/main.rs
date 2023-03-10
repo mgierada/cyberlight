@@ -1,5 +1,4 @@
 use dotenv::dotenv;
-use reqwest::Error;
 use serde::{Serialize, Deserialize};
 use serde_json::{json, Result};
 
@@ -13,14 +12,14 @@ async fn main() -> Result<()> {
     // load env vars
     dotenv().ok();
 
-    let goove_api_token = std::env::var("GOVEE_API_KEY").expect("GOVEE_API_KEY must be set.").to_string();
+    let goove_api_key = std::env::var("GOVEE_API_KEY").expect("GOVEE_API_KEY must be set.").to_string();
     let goove_api_device= std::env::var("GOVEE_DEVICE_ID").expect("GOVEE_DEVICE_ID").to_string();
     let goove_model= std::env::var("GOVEE_MODEL").expect("GOVEE_MODEL").to_string();
     let command = Command {
         name: "turn".to_string(),
         value: "off".to_string(),
     };
-    let govee_api_url = "https://developer-api.govee.com/v1/devices";
+    let govee_api_url = "https://developer-api.govee.com/v1/devices/control";
 
     let payload = json!({
         "device": goove_api_device,
@@ -34,21 +33,13 @@ async fn main() -> Result<()> {
 
     let response = client
         .put(govee_api_url)
-        .header("Govee-API-Key", goove_api_token)
-        .json(&payload);
+        .header("Govee-API-Key", goove_api_key)
+        .json(&payload)
+        .send()
+        .await
+        .unwrap();
 
     println!("response: {:?}", response);
     Ok(())
 }
 
-// async fn send_request() -> Result<(), Error> {
-//     let client = reqwest::blocking::Client::new();
-//
-//     let response = client
-//         .put(govee_api_url)
-//         .header("Govee-API-Key", goove_api_token)
-//         .json(&payload)
-//         .send()?
-//         .await?;
-//     Ok(())
-// }
