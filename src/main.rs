@@ -13,8 +13,8 @@ async fn main() -> Result<()> {
     dotenv().ok();
 
     let goove_api_key = std::env::var("GOVEE_API_KEY").expect("GOVEE_API_KEY must be set.").to_string();
-    let goove_api_device= std::env::var("GOVEE_DEVICE_ID").expect("GOVEE_DEVICE_ID").to_string();
-    let goove_model= std::env::var("GOVEE_MODEL").expect("GOVEE_MODEL").to_string();
+    let goove_api_device= std::env::var("GOVEE_DEVICE_ID").expect("GOVEE_DEVICE_ID must be set").to_string();
+    let goove_model= std::env::var("GOVEE_MODEL").expect("GOVEE_MODEL must be set").to_string();
     let command = Command {
         name: "turn".to_string(),
         value: "off".to_string(),
