@@ -8,7 +8,8 @@ struct Command {
     name: String,
     value: String,
 }
-fn main() -> Result<()> {
+#[tokio::main]
+async fn main() -> Result<()> {
     // load env vars
     dotenv().ok();
 
@@ -17,7 +18,7 @@ fn main() -> Result<()> {
     let goove_model= std::env::var("GOVEE_MODEL").expect("GOVEE_MODEL").to_string();
     let command = Command {
         name: "turn".to_string(),
-        value: "on".to_string(),
+        value: "off".to_string(),
     };
     let govee_api_url = "https://developer-api.govee.com/v1/devices";
 
@@ -28,6 +29,26 @@ fn main() -> Result<()> {
     });
 
     println!("payload: {}", payload);
+    
+    let client = reqwest::Client::new();
 
+    let response = client
+        .put(govee_api_url)
+        .header("Govee-API-Key", goove_api_token)
+        .json(&payload);
+
+    println!("response: {:?}", response);
     Ok(())
 }
+
+// async fn send_request() -> Result<(), Error> {
+//     let client = reqwest::blocking::Client::new();
+//
+//     let response = client
+//         .put(govee_api_url)
+//         .header("Govee-API-Key", goove_api_token)
+//         .json(&payload)
+//         .send()?
+//         .await?;
+//     Ok(())
+// }
