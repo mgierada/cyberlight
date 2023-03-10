@@ -1,14 +1,28 @@
-use dotenv::dotenv;
+#[macro_use] extern crate rocket;
+use rocket::serde::json::Json;
 use serde::{Serialize, Deserialize};
 use serde_json::{json, Result};
+use dotenv::dotenv;
+use reqwest::Error;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Command {
     name: String,
     value: String,
 }
-#[tokio::main]
-async fn main() -> Result<()> {
+
+#[derive(Debug, Deserialize, Serialize)]
+struct Data{}
+
+#[derive(Debug, Deserialize, Serialize)]
+struct ApiResponse {
+    code: i32,
+    message: String,
+    data: Option<Data>
+}
+
+#[get("/on")]
+async fn on() -> Result<Json<ApiResponse>, anyhow::Error> {
     // load env vars
     dotenv().ok();
 
@@ -36,10 +50,19 @@ async fn main() -> Result<()> {
         .header("Govee-API-Key", goove_api_key)
         .json(&payload)
         .send()
-        .await
-        .unwrap();
+        .await?;
+        // .unwrap();
+    let response_body: ApiResponse  = response.json().await?;
+    Ok(Json(response_body))
 
-    println!("response: {:?}", response);
-    Ok(())
+
+    // println!("response: {:?}", response);
+    // return response.json().await;
+    // Ok(())
 }
 
+#[launch]
+fn rocket() -> _ {
+    rocket::build()
+        .mount("/", routes![on])
+}
