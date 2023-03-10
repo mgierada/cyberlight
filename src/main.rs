@@ -5,6 +5,14 @@ use serde_json::{json, Result};
 use dotenv::dotenv;
 use reqwest::Error;
 
+#[derive(Serialize)]
+struct MyRequestBody {
+    // Define the fields of the request body here
+    device: String,
+    model: String,
+    command: Command,
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 struct Command {
     name: String,
@@ -22,7 +30,7 @@ struct ApiResponse {
 }
 
 #[get("/on")]
-async fn on() -> Result<Json<ApiResponse>, anyhow::Error> {
+async fn on_handler() -> Json<serde_json::Value> {
     // load env vars
     dotenv().ok();
 
@@ -31,38 +39,34 @@ async fn on() -> Result<Json<ApiResponse>, anyhow::Error> {
     let goove_model= std::env::var("GOVEE_MODEL").expect("GOVEE_MODEL must be set").to_string();
     let command = Command {
         name: "turn".to_string(),
-        value: "off".to_string(),
+        value: "on".to_string(),
     };
     let govee_api_url = "https://developer-api.govee.com/v1/devices/control";
-
+    
+    // let request_body = json!(MyRequestBody {
+    //     device: goove_api_device,
+    //     model: goove_model,
+    //     command: command,
+    // });
     let payload = json!({
         "device": goove_api_device,
         "model": goove_model,
         "cmd": command,
     });
-
-    println!("payload: {}", payload);
-    
     let client = reqwest::Client::new();
-
-    let response = client
-        .put(govee_api_url)
+    let response = client.put(govee_api_url)
         .header("Govee-API-Key", goove_api_key)
         .json(&payload)
         .send()
-        .await?;
-        // .unwrap();
-    let response_body: ApiResponse  = response.json().await?;
-    Ok(Json(response_body))
-
-
-    // println!("response: {:?}", response);
-    // return response.json().await;
-    // Ok(())
+        .await
+        .unwrap();
+    println!("response: {:?}", response);
+    println!("response: {:?}", response.text().await.unwrap());
+    Json(serde_json::json!({"status": "done"}))
 }
 
 #[launch]
 fn rocket() -> _ {
     rocket::build()
-        .mount("/", routes![on])
+        .mount("/", routes![on_handler])
 }
