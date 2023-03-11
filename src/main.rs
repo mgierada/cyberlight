@@ -41,7 +41,8 @@ fn get_govee_api_key() -> String {
 }
 
 fn tv_light_setup(command: &str) -> PayloadBody {
-    let goove_api_device = std::env::var("GOVEE_DEVICE_ID_TV_LIGHT").expect("GOVEE_DEVICE_ID must be set");
+    let goove_api_device =
+        std::env::var("GOVEE_DEVICE_ID_TV_LIGHT").expect("GOVEE_DEVICE_ID must be set");
     let goove_model = std::env::var("GOVEE_MODEL_TV_LIGHT").expect("GOVEE_MODEL must be set");
     let command = Command {
         name: "turn".to_string(),
