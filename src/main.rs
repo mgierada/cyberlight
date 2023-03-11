@@ -42,8 +42,25 @@ fn get_govee_api_key() -> String {
 
 fn tv_light_setup(command: &str) -> PayloadBody {
     let goove_api_device =
-        std::env::var("GOVEE_DEVICE_ID_TV_LIGHT").expect("GOVEE_DEVICE_ID must be set");
-    let goove_model = std::env::var("GOVEE_MODEL_TV_LIGHT").expect("GOVEE_MODEL must be set");
+        std::env::var("GOVEE_DEVICE_ID_TV_LIGHT").expect("GOVEE_DEVICE_ID_TV_LIGHT must be set");
+    let goove_model =
+        std::env::var("GOVEE_MODEL_TV_LIGHT").expect("GOVEE_MODEL_TV_LIGHT must be set");
+    let command = Command {
+        name: "turn".to_string(),
+        value: command.to_string(),
+    };
+    PayloadBody {
+        device: goove_api_device,
+        model: goove_model,
+        cmd: command,
+    }
+}
+
+fn office_light_setup(command: &str) -> PayloadBody {
+    let goove_api_device = std::env::var("GOVEE_DEVICE_ID_OFFICE_LIGHT")
+        .expect("GOVEE_DEVICE_ID_OFFICE_LIGHT must be set");
+    let goove_model =
+        std::env::var("GOVEE_MODEL_OFFICE_LIGHT").expect("GOVEE_MODEL_OFFICE_LIGHT must be set");
     let command = Command {
         name: "turn".to_string(),
         value: command.to_string(),
@@ -62,7 +79,6 @@ async fn sent_request(
 ) -> Json<serde_json::Value> {
     let client = Client::new();
     let payload_json = json!(payload);
-    println!("payload_json: {:?}", payload_json);
     let response = client
         .put(govee_api_url)
         .header("Govee-API-Key", govee_api_key)
@@ -70,7 +86,6 @@ async fn sent_request(
         .send()
         .await
         .unwrap();
-    println!("response: {:?}", response.text().await.unwrap());
     Json(serde_json::json!({"status": "done"}))
 }
 
@@ -90,7 +105,25 @@ async fn tv_off_handler() -> Json<serde_json::Value> {
     sent_request(govee_api_url, &govee_api_key, payload).await
 }
 
+#[get("/on")]
+async fn office_on_handler() -> Json<serde_json::Value> {
+    let govee_api_key = get_govee_api_key();
+    let govee_api_url = "https://developer-api.govee.com/v1/devices/control";
+    let payload = office_light_setup("on");
+    sent_request(govee_api_url, &govee_api_key, payload).await
+}
+
+#[get("/off")]
+async fn office_off_handler() -> Json<serde_json::Value> {
+    let govee_api_key = get_govee_api_key();
+    let govee_api_url = "https://developer-api.govee.com/v1/devices/control";
+    let payload = office_light_setup("off");
+    sent_request(govee_api_url, &govee_api_key, payload).await
+}
+
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/tv", routes![tv_on_handler, tv_off_handler])
+    rocket::build()
+        .mount("/tv", routes![tv_on_handler, tv_off_handler])
+        .mount("/office", routes![office_on_handler, office_off_handler])
 }
