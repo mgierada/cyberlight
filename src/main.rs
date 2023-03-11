@@ -79,7 +79,7 @@ async fn sent_request(
 ) -> Json<serde_json::Value> {
     let client = Client::new();
     let payload_json = json!(payload);
-    let response = client
+    let _response = client
         .put(govee_api_url)
         .header("Govee-API-Key", govee_api_key)
         .json(&payload_json)
