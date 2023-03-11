@@ -1,9 +1,9 @@
-#[macro_use] extern crate rocket;
-use rocket::serde::json::Json;
-use serde::{Serialize, Deserialize};
-use serde_json::{json, Result};
+#[macro_use]
+extern crate rocket;
 use dotenv::dotenv;
-use reqwest::Error;
+use rocket::serde::json::Json;
+use serde::{Deserialize, Serialize};
+use serde_json::json;
 
 #[derive(Serialize)]
 struct MyRequestBody {
@@ -20,13 +20,13 @@ struct Command {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct Data{}
+struct Data {}
 
 #[derive(Debug, Deserialize, Serialize)]
 struct ApiResponse {
     code: i32,
     message: String,
-    data: Option<Data>
+    data: Option<Data>,
 }
 
 #[get("/on")]
@@ -34,27 +34,30 @@ async fn on_handler() -> Json<serde_json::Value> {
     // load env vars
     dotenv().ok();
 
-    let goove_api_key = std::env::var("GOVEE_API_KEY").expect("GOVEE_API_KEY must be set.").to_string();
-    let goove_api_device= std::env::var("GOVEE_DEVICE_ID").expect("GOVEE_DEVICE_ID must be set").to_string();
-    let goove_model= std::env::var("GOVEE_MODEL").expect("GOVEE_MODEL must be set").to_string();
+    let goove_api_key = std::env::var("GOVEE_API_KEY")
+        .expect("GOVEE_API_KEY must be set.")
+        .to_string();
+    let goove_api_device = std::env::var("GOVEE_DEVICE_ID")
+        .expect("GOVEE_DEVICE_ID must be set")
+        .to_string();
+    let goove_model = std::env::var("GOVEE_MODEL")
+        .expect("GOVEE_MODEL must be set")
+        .to_string();
     let command = Command {
         name: "turn".to_string(),
         value: "on".to_string(),
     };
     let govee_api_url = "https://developer-api.govee.com/v1/devices/control";
-    
-    // let request_body = json!(MyRequestBody {
-    //     device: goove_api_device,
-    //     model: goove_model,
-    //     command: command,
-    // });
+
     let payload = json!({
         "device": goove_api_device,
         "model": goove_model,
         "cmd": command,
     });
+
     let client = reqwest::Client::new();
-    let response = client.put(govee_api_url)
+    let response = client
+        .put(govee_api_url)
         .header("Govee-API-Key", goove_api_key)
         .json(&payload)
         .send()
@@ -67,6 +70,5 @@ async fn on_handler() -> Json<serde_json::Value> {
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build()
-        .mount("/", routes![on_handler])
+    rocket::build().mount("/", routes![on_handler])
 }
