@@ -3,8 +3,11 @@ extern crate rocket;
 use dotenv::dotenv;
 use reqwest::Client;
 use rocket::serde::json::Json;
+use routes::{office_off_handler, office_on_handler, tv_off_handler, tv_on_handler};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
+
+mod routes;
 
 #[derive(Serialize)]
 struct PayloadBody {
@@ -72,7 +75,7 @@ fn office_light_setup(command: &str) -> PayloadBody {
     }
 }
 
-async fn sent_request(
+async fn sent_put_request(
     govee_api_url: &str,
     govee_api_key: &str,
     payload: PayloadBody,
@@ -87,38 +90,6 @@ async fn sent_request(
         .await
         .unwrap();
     Json(serde_json::json!({"status": "done"}))
-}
-
-#[get("/on")]
-async fn tv_on_handler() -> Json<serde_json::Value> {
-    let govee_api_key = get_govee_api_key();
-    let govee_api_url = "https://developer-api.govee.com/v1/devices/control";
-    let payload = tv_light_setup("on");
-    sent_request(govee_api_url, &govee_api_key, payload).await
-}
-
-#[get("/off")]
-async fn tv_off_handler() -> Json<serde_json::Value> {
-    let govee_api_key = get_govee_api_key();
-    let govee_api_url = "https://developer-api.govee.com/v1/devices/control";
-    let payload = tv_light_setup("off");
-    sent_request(govee_api_url, &govee_api_key, payload).await
-}
-
-#[get("/on")]
-async fn office_on_handler() -> Json<serde_json::Value> {
-    let govee_api_key = get_govee_api_key();
-    let govee_api_url = "https://developer-api.govee.com/v1/devices/control";
-    let payload = office_light_setup("on");
-    sent_request(govee_api_url, &govee_api_key, payload).await
-}
-
-#[get("/off")]
-async fn office_off_handler() -> Json<serde_json::Value> {
-    let govee_api_key = get_govee_api_key();
-    let govee_api_url = "https://developer-api.govee.com/v1/devices/control";
-    let payload = office_light_setup("off");
-    sent_request(govee_api_url, &govee_api_key, payload).await
 }
 
 #[launch]
