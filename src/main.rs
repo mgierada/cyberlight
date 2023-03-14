@@ -9,8 +9,6 @@ use serde_json::json;
 use routes::tv_lamp_routes::{tv_on_handler, tv_off_handler};
 use routes::office_lamp_routes::{office_on_handler, office_off_handler};
 pub mod routes;
-// use crate::routes::{get_govee_api_key, office_light_setup, sent_put_request, tv_light_setup};
-// pub mod routes;
 
 #[derive(Serialize)]
 struct PayloadBody {
