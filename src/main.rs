@@ -3,8 +3,10 @@ extern crate rocket;
 use dotenv::dotenv;
 use serde::{Deserialize, Serialize};
 
+use routes::healthcheck::healthcheck_handler;
 use routes::office_lamp_routes::{office_off_handler, office_on_handler};
 use routes::tv_lamp_routes::{tv_off_handler, tv_on_handler};
+
 pub mod routes;
 pub mod services;
 
@@ -27,7 +29,7 @@ struct Data {}
 
 #[derive(Debug, Deserialize, Serialize)]
 struct ApiResponse {
-    code: i32,
+    code: i16,
     message: String,
     data: Option<Data>,
 }
@@ -79,4 +81,5 @@ fn rocket() -> _ {
     rocket::build()
         .mount("/tv", routes![tv_on_handler, tv_off_handler])
         .mount("/office", routes![office_on_handler, office_off_handler])
+        .mount("/", routes![healthcheck_handler])
 }
