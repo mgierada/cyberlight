@@ -1,6 +1,7 @@
 use rocket::serde::json::Json;
 
-use crate::{get_govee_api_key, sent_put_request, tv_light_setup};
+use crate::{get_govee_api_key, tv_light_setup};
+use crate::services::govee_api_service::sent_put_request;
 
 #[get("/on")]
 pub async fn tv_on_handler() -> Json<serde_json::Value> {

@@ -1,17 +1,15 @@
 #[macro_use]
 extern crate rocket;
 use dotenv::dotenv;
-use reqwest::Client;
-use rocket::serde::json::Json;
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 
-use routes::tv_lamp_routes::{tv_on_handler, tv_off_handler};
-use routes::office_lamp_routes::{office_on_handler, office_off_handler};
+use routes::office_lamp_routes::{office_off_handler, office_on_handler};
+use routes::tv_lamp_routes::{tv_off_handler, tv_on_handler};
 pub mod routes;
+pub mod services;
 
 #[derive(Serialize)]
-struct PayloadBody {
+pub struct PayloadBody {
     // Define the fields of the request body here
     device: String,
     model: String,
@@ -74,23 +72,6 @@ fn office_light_setup(command: &str) -> PayloadBody {
         model: goove_model,
         cmd: command,
     }
-}
-
-async fn sent_put_request(
-    govee_api_url: &str,
-    govee_api_key: &str,
-    payload: PayloadBody,
-) -> Json<serde_json::Value> {
-    let client = Client::new();
-    let payload_json = json!(payload);
-    let _response = client
-        .put(govee_api_url)
-        .header("Govee-API-Key", govee_api_key)
-        .json(&payload_json)
-        .send()
-        .await
-        .unwrap();
-    Json(serde_json::json!({"status": "done"}))
 }
 
 #[launch]

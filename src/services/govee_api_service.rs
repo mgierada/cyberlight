@@ -1,5 +1,9 @@
+use reqwest::Client;
+use rocket::serde::json::Json;
+use serde_json::json;
+use crate::PayloadBody;
 
-async fn sent_put_request(
+pub async fn sent_put_request(
     govee_api_url: &str,
     govee_api_key: &str,
     payload: PayloadBody,
