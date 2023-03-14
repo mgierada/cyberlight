@@ -1,13 +1,12 @@
-use reqwest::Client;
-use rocket::serde::json::Json;
-use serde_json::json;
 use crate::PayloadBody;
+use reqwest::Client;
+use serde_json::json;
 
 pub async fn sent_put_request(
     govee_api_url: &str,
     govee_api_key: &str,
     payload: PayloadBody,
-) -> Json<serde_json::Value> {
+) -> () {
     let client = Client::new();
     let payload_json = json!(payload);
     let _response = client
@@ -17,5 +16,4 @@ pub async fn sent_put_request(
         .send()
         .await
         .unwrap();
-    Json(serde_json::json!({"status": "done"}))
 }
