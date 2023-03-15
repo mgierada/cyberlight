@@ -11,4 +11,4 @@ jobs:
       - name: send CURL request
         run: |
           curl "${{ vars.DEPLOY_ROOT_URL }}/healthcheck"
-        echo: false
+        silent: false
