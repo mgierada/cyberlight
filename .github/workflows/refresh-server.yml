@@ -7,9 +7,7 @@ jobs:
   build:
     name: Trigger healthcheck endpoint
     runs-on: ubuntu-latest
-    env:
-      ROOT_URL: ${{ vars.GOVEE_ROOT_URL }}
     steps:
       - name: send CURL request
         run: |
-          curl "${{ vars.GOVEE_ROOT_URL }}/healthcheck"
+          curl "${{ vars.DEPLOY_ROOT_URL }/healthcheck"
