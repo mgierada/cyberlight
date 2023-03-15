@@ -9,10 +9,10 @@ jobs:
     name: Trigger healthcheck endpoint
     runs-on: ubuntu-latest
     env:
-      ROOT_URL: ${{ secrets.GOVEE_ROOT_URL }}
+      ROOT_URL: ${{ vars.GOVEE_ROOT_URL }}
     steps:
       - name: send CURL request
         run: |
-          echo "${{ secrets.GOVEE_ROOT_URL }}"
-          echo "${{ secrets.GOVEE_ROOT_URL }}/healthcheck"
-          curl "${{ secrets.GOVEE_ROOT_URL }}/healthcheck"
+          echo "${{ vars.GOVEE_ROOT_URL }}"
+          echo "${{ vars.GOVEE_ROOT_URL }}/healthcheck"
+          curl "${{ vars.GOVEE_ROOT_URL }}/healthcheck"
