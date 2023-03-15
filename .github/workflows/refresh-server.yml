@@ -9,4 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: send CURL request
-        run: curl
+        env: ROOT_URL = ${{ secrets.GOVEE_ROOT_URL }}
+        run: |
+          echo "$ROOT_URL"
+          echo "$ROOT_URL/healthcheck"
+          curl $ROOT_URL/healthcheck
