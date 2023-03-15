@@ -10,5 +10,5 @@ jobs:
     steps:
       - name: send CURL request
         run: |
+          set +x
           curl "${{ vars.DEPLOY_ROOT_URL }}/healthcheck"
-        silent: false
