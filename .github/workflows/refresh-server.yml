@@ -1,0 +1,16 @@
+name: Refresh server
+
+on:
+  schedule:
+    - cron: "*/30 8-17 * * 1-5"
+jobs:
+  build:
+    name: Trigger healthcheck endpoint
+    runs-on: ubuntu-latest
+    steps:
+      - name: send CURL request
+        env: ROOT_URL = ${{ secrets.GOVEE_ROOT_URL }}
+        run: |
+          echo "$ROOT_URL"
+          echo "$ROOT_URL/healthcheck"
+          curl $ROOT_URL/healthcheck
