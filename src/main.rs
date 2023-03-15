@@ -44,6 +44,11 @@ fn get_govee_api_key() -> String {
     std::env::var("GOVEE_API_KEY").expect("GOVEE_API_KEY must be set.")
 }
 
+pub fn get_goove_root_url() -> String {
+    dotenv().ok();
+    std::env::var("GOVEE_ROOT_URL").expect("GOVEE_ROOT_URL must be set.")
+}
+
 fn tv_light_setup(command: &str) -> PayloadBody {
     let goove_api_device =
         std::env::var("GOVEE_DEVICE_ID_TV_LIGHT").expect("GOVEE_DEVICE_ID_TV_LIGHT must be set");
