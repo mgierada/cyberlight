@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: send CURL request
         env:
-          ROOT_URL: ${{ vars.GOVEE_ROOT_URL }}
+          ROOT_URL: ${{ secrets.GOVEE_ROOT_URL }}
         run: |
           echo "$ROOT_URL/healthcheck"
           curl $ROOT_URL/healthcheck
