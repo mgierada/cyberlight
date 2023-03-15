@@ -44,7 +44,7 @@ fn get_govee_api_key() -> String {
     std::env::var("GOVEE_API_KEY").expect("GOVEE_API_KEY must be set.")
 }
 
-pub fn get_goove_root_url() -> String {
+fn get_goove_root_url() -> String {
     dotenv().ok();
     std::env::var("GOVEE_ROOT_URL").expect("GOVEE_ROOT_URL must be set.")
 }
