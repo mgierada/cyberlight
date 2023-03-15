@@ -1,6 +1,16 @@
-use crate::PayloadBody;
 use reqwest::Client;
 use serde_json::json;
+
+use super::light_setup_service::PayloadBody;
+
+#[derive(Debug)]
+struct ApiResponse {
+    code: i16,
+    message: String,
+    data: Option<Data>,
+}
+#[derive(Debug)]
+struct Data {}
 
 pub async fn sent_put_request(
     govee_api_url: &str,
