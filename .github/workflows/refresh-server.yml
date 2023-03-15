@@ -2,7 +2,8 @@ name: Refresh server
 
 on:
   schedule:
-    - cron: "*/30 8-17 * * 1-5"
+    # - cron: "*/30 8-17 * * 1-5"
+    - cron: "* * * * *"
 jobs:
   build:
     name: Trigger healthcheck endpoint
