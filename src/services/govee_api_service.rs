@@ -4,16 +4,22 @@ use serde_json::json;
 
 use super::light_setup_service::PayloadBody;
 
+// ------------------------
+// Structs for the Govee API
+// ------------------------
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct ApiResponseAllDevices {
     code: i16,
     message: String,
     data: Option<Data>,
 }
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Data {
     devices: Vec<Device>,
 }
+
 #[derive(Debug, Deserialize, Serialize)]
 #[allow(non_snake_case)]
 pub struct Device {
@@ -42,6 +48,10 @@ pub struct ColorTemRange {
     min: i16,
     max: i16,
 }
+
+// ------------------------
+// Methods for the Govee API
+// ------------------------
 
 pub async fn sent_put_request(
     govee_root_url: &str,
