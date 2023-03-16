@@ -29,5 +29,5 @@ fn rocket() -> _ {
         .mount("/tv", routes![tv_on_handler, tv_off_handler])
         .mount("/office", routes![office_on_handler, office_off_handler])
         .mount("/", routes![healthcheck_handler])
-        .mount("'/", routes![get_all_devices_handler])
+        .mount("/", routes![get_all_devices_handler])
 }

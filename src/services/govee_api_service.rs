@@ -66,7 +66,8 @@ pub async fn get_all_devices(govee_root_url: &str, govee_api_key: &str) -> ApiRe
         .header("Govee-API-Key", govee_api_key)
         .send()
         .await
-        .unwrap();
-    let response_json: ApiResponseAllDevices = response.json().await.unwrap();
+        .unwrap()
+        .json::<ApiResponseAllDevices>();
+    let response_json: ApiResponseAllDevices = response.await.unwrap();
     response_json
 }
