@@ -1,20 +1,20 @@
 use reqwest::Client;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use serde_json::json;
 
 use super::light_setup_service::PayloadBody;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ApiResponseAllDevices {
     code: i16,
     message: String,
     data: Option<Data>,
 }
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Data {
     devices: Vec<Device>,
 }
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Device {
     device: String,
     model: String,
@@ -25,17 +25,17 @@ pub struct Device {
     properties: Properties,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Properties {
     colorTem: ColorTem,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ColorTem {
     range: ColorTemRange,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ColorTemRange {
     min: i16,
     max: i16,
