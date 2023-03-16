@@ -15,6 +15,7 @@ pub struct Data {
     devices: Vec<Device>,
 }
 #[derive(Debug, Deserialize, Serialize)]
+#[allow(non_snake_case)]
 pub struct Device {
     device: String,
     model: String,
@@ -26,6 +27,7 @@ pub struct Device {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
+#[allow(non_snake_case)]
 pub struct Properties {
     colorTem: ColorTem,
 }
