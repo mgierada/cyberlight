@@ -19,37 +19,26 @@ pub struct ApiResponseDeviceStatus {
 pub struct DataDeviceStatus {
     device: String,
     model: String,
-    properties: DeviceProperties,
+    properties: Vec<DeviceProperty>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-enum DeviceProperties {
-    StatusOnline(StatusOnline),
-    StatusPowerState(StatusPowerState),
-    StatusColor(StatusColor),
+enum DeviceProperty{
+    #[serde(rename = "online")]
+    Online(String),
+    #[serde(rename = "powerState")]
+    PowerState(String),
+    #[serde(rename = "brightness")]
+    Brightness(i16),
+    #[serde(rename = "color")]
+    Color(Color),
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct StatusOnline {
-    online: bool,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-#[allow(non_snake_case)]
-pub struct StatusPowerState {
-    powerState: String,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct StatusColor {
-    color: Color,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct Color {
-    r: i16,
-    g: i16,
-    b: i16,
+struct Color {
+    r: u8,
+    g: u8,
+    b: u8,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -136,7 +125,8 @@ pub async fn get_device_status(
 ) -> ApiResponseDeviceStatus {
     let client = Client::new();
     let params = [("device", device), ("model", model)];
-    let url = Url::parse_with_params(govee_root_url, &params).unwrap();
+    let endpoint = format!("{}/v1/devices/state", govee_root_url);
+    let url = Url::parse_with_params(&endpoint, &params).unwrap();
     let response = client
         .get(url)
         .header("Govee-API-Key", govee_api_key)
@@ -144,7 +134,6 @@ pub async fn get_device_status(
         .await
         .unwrap()
         .json::<ApiResponseDeviceStatus>();
-    println!("response: {:?}", response);
     let response_json: ApiResponseDeviceStatus = response.await.unwrap();
     response_json
 }

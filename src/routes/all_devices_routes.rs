@@ -38,6 +38,6 @@ pub async fn get_all_devices_handler() -> Json<serde_json::Value> {
 #[get("/status")]
 pub async fn get_status_for_all_devices() -> Json<serde_json::Value> {
     let get_response: ApiResponseDeviceStatus =
-        get_device_status(&GOVEE_ROOT_URL, &GOVEE_API_KEY, "aaa", "H6076").await;
+        get_device_status(&GOVEE_ROOT_URL, &GOVEE_API_KEY, "DF:D7:C1:30:39:39:06:43", "H6076").await;
     Json(serde_json::json!({ "status": get_response }))
 }
