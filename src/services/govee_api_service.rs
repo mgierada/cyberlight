@@ -1,4 +1,4 @@
-use reqwest::Client;
+use reqwest::{Client, Url};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 
@@ -30,23 +30,23 @@ enum DeviceProperties {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct StatusOnline{
+pub struct StatusOnline {
     online: bool,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 #[allow(non_snake_case)]
-pub struct StatusPowerState{
+pub struct StatusPowerState {
     powerState: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct StatusColor{
+pub struct StatusColor {
     color: Color,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct Color{
+pub struct Color {
     r: i16,
     g: i16,
     b: i16,
@@ -128,6 +128,20 @@ pub async fn get_all_devices(govee_root_url: &str, govee_api_key: &str) -> ApiRe
     response_json
 }
 
-pub async fn get_device_status(govee_root_url: &str, govee_api_key: &str) -> ApiResponseDeviceStatus{
-
+pub async fn get_device_status(
+    govee_root_url: &str,
+    govee_api_key: &str,
+) -> ApiResponseDeviceStatus {
+    let client = Client::new();
+    let params = [("device", "aaa"), ("model", "bbb")];
+    let url = Url::parse_with_params(govee_root_url, &params).unwrap();
+    let response = client
+        .get(url)
+        .header("Govee-API-Key", govee_api_key)
+        .send()
+        .await
+        .unwrap()
+        .json::<ApiResponseDeviceStatus>();
+    let response_json: ApiResponseDeviceStatus = response.await.unwrap();
+    response_json
 }
