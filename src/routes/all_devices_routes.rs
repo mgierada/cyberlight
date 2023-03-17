@@ -24,9 +24,11 @@ pub async fn get_status_for_all_devices() -> Json<serde_json::Value> {
     for model_and_device in wrapped_models_and_devices {
         let device = model_and_device.device;
         let model = model_and_device.model;
-        let response: ApiResponseDeviceStatus =
+        let raw_response: ApiResponseDeviceStatus =
             get_device_status(&GOVEE_ROOT_URL, &GOVEE_API_KEY, &device, &model).await;
-        response_status.push(response);
+        let raw_devices_status = raw_response.data.unwrap();
+        let response = wrap_device_status(raw_response);
+        response_status.push(let_response);
     }
     Json(serde_json::json!({ "status": response_status }))
 }

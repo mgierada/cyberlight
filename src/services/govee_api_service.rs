@@ -12,14 +12,14 @@ use super::light_setup_service::PayloadBody;
 pub struct ApiResponseDeviceStatus {
     code: i16,
     message: String,
-    data: Option<DataDeviceStatus>,
+    pub data: Option<DataDeviceStatus>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct DataDeviceStatus {
-    device: String,
-    model: String,
-    properties: Vec<DeviceProperty>,
+    pub device: String,
+    pub model: String,
+    pub properties: Vec<DeviceProperty>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
