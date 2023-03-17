@@ -131,9 +131,11 @@ pub async fn get_all_devices(govee_root_url: &str, govee_api_key: &str) -> ApiRe
 pub async fn get_device_status(
     govee_root_url: &str,
     govee_api_key: &str,
+    device: &str,
+    model: &str,
 ) -> ApiResponseDeviceStatus {
     let client = Client::new();
-    let params = [("device", "aaa"), ("model", "bbb")];
+    let params = [("device", device), ("model", model)];
     let url = Url::parse_with_params(govee_root_url, &params).unwrap();
     let response = client
         .get(url)
@@ -142,6 +144,7 @@ pub async fn get_device_status(
         .await
         .unwrap()
         .json::<ApiResponseDeviceStatus>();
+    println!("response: {:?}", response);
     let response_json: ApiResponseDeviceStatus = response.await.unwrap();
     response_json
 }
