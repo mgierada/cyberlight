@@ -25,7 +25,7 @@ pub struct DataDeviceStatus {
 #[derive(Debug, Deserialize, Serialize)]
 enum DeviceProperty{
     #[serde(rename = "online")]
-    Online(String),
+    Online(bool),
     #[serde(rename = "powerState")]
     PowerState(String),
     #[serde(rename = "brightness")]
