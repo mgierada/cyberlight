@@ -12,24 +12,24 @@ use super::light_setup_service::PayloadBody;
 pub struct ApiResponseAllDevices {
     code: i16,
     message: String,
-    data: Option<Data>,
+    pub data: Option<Data>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Data {
-    devices: Vec<Device>,
+    pub devices: Vec<Device>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 #[allow(non_snake_case)]
 pub struct Device {
-    device: String,
-    model: String,
-    deviceName: String,
-    controllable: bool,
-    retrievable: bool,
-    supportCmds: Vec<String>,
-    properties: Properties,
+    pub device: String,
+    pub model: String,
+    pub deviceName: String,
+    pub controllable: bool,
+    pub retrievable: bool,
+    pub supportCmds: Vec<String>,
+    pub properties: Properties,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
