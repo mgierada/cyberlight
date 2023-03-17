@@ -11,6 +11,7 @@ use std::env::var;
 
 pub mod routes;
 pub mod services;
+pub mod wrappers;
 
 lazy_static! {
     pub static ref GOVEE_API_KEY: String =
