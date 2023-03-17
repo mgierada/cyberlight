@@ -32,3 +32,5 @@ pub async fn get_all_devices_handler() -> Json<serde_json::Value> {
 
     Json(serde_json::json!({ "devices": trim_response }))
 }
+
+

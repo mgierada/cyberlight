@@ -9,6 +9,50 @@ use super::light_setup_service::PayloadBody;
 // ------------------------
 
 #[derive(Debug, Deserialize, Serialize)]
+pub struct ApiResponseDeviceStatus {
+    code: i16,
+    message: String,
+    data: Option<DataDeviceStatus>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct DataDeviceStatus {
+    device: String,
+    model: String,
+    properties: DeviceProperties,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+enum DeviceProperties {
+    StatusOnline(StatusOnline),
+    StatusPowerState(StatusPowerState),
+    StatusColor(StatusColor),
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct StatusOnline{
+    online: bool,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[allow(non_snake_case)]
+pub struct StatusPowerState{
+    powerState: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct StatusColor{
+    color: Color,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct Color{
+    r: i16,
+    g: i16,
+    b: i16,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ApiResponseAllDevices {
     code: i16,
     message: String,
@@ -82,4 +126,8 @@ pub async fn get_all_devices(govee_root_url: &str, govee_api_key: &str) -> ApiRe
         .json::<ApiResponseAllDevices>();
     let response_json: ApiResponseAllDevices = response.await.unwrap();
     response_json
+}
+
+pub async fn get_device_status(govee_root_url: &str, govee_api_key: &str) -> ApiResponseDeviceStatus{
+
 }
