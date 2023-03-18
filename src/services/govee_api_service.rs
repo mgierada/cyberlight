@@ -1,5 +1,5 @@
 use reqwest::{Client, Url};
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de};
 use serde_json::json;
 
 use super::light_setup_service::PayloadBody;
@@ -22,9 +22,11 @@ pub struct DataDeviceStatus {
     pub properties: Vec<DeviceProperty>,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize,Serialize)]
 pub enum DeviceProperty{
     #[serde(rename = "online")]
+    #[serde(deserialize_with = "deserialize_bool")]
+    // Online can be a boolean or a string
     Online(bool),
     #[serde(rename = "powerState")]
     PowerState(String),
@@ -86,24 +88,18 @@ pub struct ColorTemRange {
 // Handling Govee Issues
 // ------------------------
 //
-impl<'de> Deserialize<'de> for Properties {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let online: serde_json::Value = Deserialize::deserialize(deserializer)?;
-        match online {
-            serde_json::Value::Bool(value) => Ok(Properties { online: value }),
-            serde_json::Value::String(value) => match value.as_ref() {
-                "true" => Ok(Properties { online: true }),
-                "false" => Ok(Properties { online: false }),
-                _ => Err(serde::de::Error::custom(format!(
-                    "Invalid value for online: {}",
-                    value
-                ))),
-            },
-            _ => Err(serde::de::Error::custom("Invalid type for online")),
-        }
+
+fn deserialize_bool<'de, D>(deserializer: D) -> Result<bool, D::Error>
+where
+    D: de::Deserializer<'de>,
+{
+    // If the incoming value is a string 'true' or 'false', return true or false
+    // If the incoming value is a boolean, return the boolean
+    match serde::Deserialize::deserialize(deserializer)? {
+        serde_json::Value::Bool(b) => Ok(b),
+        serde_json::Value::String(s) if s == "true" => Ok(true),
+        serde_json::Value::String(s) if s == "false" => Ok(false),
+        _ => Err(serde::de::Error::custom("Expected a boolean or 'true'/'false' string")),
     }
 }
 

@@ -34,3 +34,12 @@ pub async fn get_status_for_all_devices() -> Json<serde_json::Value> {
     }
     Json(serde_json::json!({ "status": response_status }))
 }
+
+#[get("/status/<device>/<model>")]
+pub async fn get_status_for_device(device: String, model: String) -> Json<serde_json::Value> {
+    let raw_response: ApiResponseDeviceStatus =
+        get_device_status(&GOVEE_ROOT_URL, &GOVEE_API_KEY, &device, &model).await;
+    let raw_devices_status = raw_response.data.unwrap();
+    // let response = wrap_device_status(raw_devices_status);
+    Json(serde_json::json!({ "status": raw_devices_status }))
+}

@@ -67,7 +67,7 @@ pub fn wrap_device_status(device: DataDeviceStatus) -> GoveeDeviceStatus {
             .properties
             .iter()
             .map(|property| match property {
-                DeviceProperty::Online(online) => GoveeDeviceProperty::Online(*online),
+                // DeviceProperty::Online(online) => GoveeDeviceProperty::Online(*online),
                 DeviceProperty::PowerState(power_state) => {
                     GoveeDeviceProperty::PowerState(power_state.clone())
                 }
