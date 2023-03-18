@@ -23,7 +23,7 @@ pub struct DataDeviceStatus {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-enum DeviceProperty{
+pub enum DeviceProperty{
     #[serde(rename = "online")]
     Online(bool),
     #[serde(rename = "powerState")]
@@ -35,7 +35,7 @@ enum DeviceProperty{
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct Color {
+pub struct Color {
     r: u8,
     g: u8,
     b: u8,

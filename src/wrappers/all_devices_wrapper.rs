@@ -1,6 +1,6 @@
 use serde::Serialize;
 
-use crate::services::govee_api_service::{DataDeviceStatus, Device};
+use crate::services::govee_api_service::{DataDeviceStatus, Device, DeviceProperty};
 
 #[derive(Debug, Serialize)]
 #[allow(non_snake_case)]
