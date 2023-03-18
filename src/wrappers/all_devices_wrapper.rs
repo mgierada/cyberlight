@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use serde::Serialize;
 
 use crate::services::govee_api_service::{DataDeviceStatus, Device, DeviceProperty};
@@ -24,7 +26,8 @@ pub struct GoveeModelAndDevice {
 pub struct GoveeDeviceStatus {
     device: String,
     model: String,
-    properties: Vec<GoveeDeviceProperty>,
+    // properties: Vec<GoveeDeviceProperty>,
+    properties: HashMap<String, String>,
 }
 
 #[derive(Debug, Serialize)]
@@ -60,19 +63,24 @@ pub fn wrap_model_and_devices(devices: Vec<Device>) -> Vec<GoveeModelAndDevice> 
 }
 
 pub fn wrap_device_status(device: DataDeviceStatus) -> GoveeDeviceStatus {
+    let mut properties = HashMap::new();
+
+    for property in device.properties {
+        match property {
+            DeviceProperty::Online(value) => {
+                properties.insert("online".to_string(), value.to_string());
+            }
+            DeviceProperty::PowerState(value) => {
+                properties.insert("powerState".to_string(), value);
+            }
+            _ => {
+                // ignore other properties
+            }
+        }
+    }
     GoveeDeviceStatus {
         device: device.device.clone(),
         model: device.model.clone(),
-        properties: device
-            .properties
-            .iter()
-            .map(|property| match property {
-                // DeviceProperty::Online(online) => GoveeDeviceProperty::Online(*online),
-                DeviceProperty::PowerState(power_state) => {
-                    GoveeDeviceProperty::PowerState(power_state.clone())
-                }
-                _ => panic!("Unexpected property type"),
-            })
-            .collect::<Vec<GoveeDeviceProperty>>(),
+        properties,
     }
 }
