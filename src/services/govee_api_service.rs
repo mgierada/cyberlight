@@ -83,6 +83,31 @@ pub struct ColorTemRange {
 }
 
 // ------------------------
+// Handling Govee Issues
+// ------------------------
+//
+impl<'de> Deserialize<'de> for Properties {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let online: serde_json::Value = Deserialize::deserialize(deserializer)?;
+        match online {
+            serde_json::Value::Bool(value) => Ok(Properties { online: value }),
+            serde_json::Value::String(value) => match value.as_ref() {
+                "true" => Ok(Properties { online: true }),
+                "false" => Ok(Properties { online: false }),
+                _ => Err(serde::de::Error::custom(format!(
+                    "Invalid value for online: {}",
+                    value
+                ))),
+            },
+            _ => Err(serde::de::Error::custom("Invalid type for online")),
+        }
+    }
+}
+
+// ------------------------
 // Methods for the Govee API
 // ------------------------
 
