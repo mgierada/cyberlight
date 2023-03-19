@@ -26,8 +26,8 @@ pub struct GoveeModelAndDevice {
 pub struct GoveeDeviceStatus {
     device: String,
     model: String,
-    // properties: Vec<GoveeDeviceProperty>,
-    properties: HashMap<String, StringOrBool>,
+    properties: Vec<GoveeDeviceProperty>,
+    // properties: HashMap<String, StringOrBool>,
 }
 
 #[derive(Debug, Serialize)]
@@ -69,20 +69,34 @@ pub fn wrap_model_and_devices(devices: Vec<Device>) -> Vec<GoveeModelAndDevice> 
 }
 
 pub fn wrap_device_status(device: DataDeviceStatus) -> GoveeDeviceStatus {
-    let mut properties = HashMap::new();
+    let mut properties = Vec::new();
     for property in device.properties {
         match property {
             DeviceProperty::Online(value) => {
-                properties.insert("online".to_string(), StringOrBool::Bool(value));
+                properties.push(GoveeDeviceProperty::Online(value));
             }
             DeviceProperty::PowerState(value) => {
-                properties.insert("powerState".to_string(), StringOrBool::String(value));
+                properties.push(GoveeDeviceProperty::PowerState(value));
             }
             _ => {
                 // ignore other properties
             }
         }
     }
+    // let mut properties = HashMap::new();
+    // for property in device.properties {
+    //     match property {
+    //         DeviceProperty::Online(value) => {
+    //             properties.insert("online".to_string(), StringOrBool::Bool(value));
+    //         }
+    //         DeviceProperty::PowerState(value) => {
+    //             properties.insert("powerState".to_string(), StringOrBool::String(value));
+    //         }
+    //         _ => {
+    //             // ignore other properties
+    //         }
+    //     }
+    // }
     GoveeDeviceStatus {
         device: device.device.clone(),
         model: device.model.clone(),
