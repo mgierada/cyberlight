@@ -69,20 +69,31 @@ pub fn wrap_model_and_devices(devices: Vec<Device>) -> Vec<GoveeModelAndDevice> 
 }
 
 pub fn wrap_device_status(device: DataDeviceStatus) -> GoveeDeviceStatus {
-    let mut properties = Vec::new();
-    for property in device.properties {
-        match property {
-            DeviceProperty::Online(value) => {
-                properties.push(GoveeDeviceProperty::Online(value));
-            }
+    let properties = device
+        .properties
+        .iter()
+        .filter_map(|property| match property {
+            DeviceProperty::Online(value) => Some(GoveeDeviceProperty::Online(*value)),
             DeviceProperty::PowerState(value) => {
-                properties.push(GoveeDeviceProperty::PowerState(value));
+                Some(GoveeDeviceProperty::PowerState(value.clone()))
             }
-            _ => {
-                // ignore other properties
-            }
-        }
-    }
+            _ => None,
+        })
+        .collect::<Vec<GoveeDeviceProperty>>();
+    // let mut properties = Vec::new();
+    // for property in device.properties {
+    //     match property {
+    //         DeviceProperty::Online(value) => {
+    //             properties.push(GoveeDeviceProperty::Online(value));
+    //         }
+    //         DeviceProperty::PowerState(value) => {
+    //             properties.push(GoveeDeviceProperty::PowerState(value));
+    //         }
+    //         _ => {
+    //             // ignore other properties
+    //         }
+    //     }
+    // }
     // let mut properties = HashMap::new();
     // for property in device.properties {
     //     match property {
