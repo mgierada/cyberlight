@@ -3,7 +3,9 @@ extern crate rocket;
 
 use dotenv::dotenv;
 use lazy_static::lazy_static;
-use routes::all_devices_routes::get_all_devices_handler;
+use routes::all_devices_routes::{
+    get_all_devices_handler, get_status_for_all_devices, get_status_for_device,
+};
 use routes::healthcheck_routes::healthcheck_handler;
 use routes::office_lamp_routes::{office_off_handler, office_on_handler};
 use routes::tv_lamp_routes::{tv_off_handler, tv_on_handler};
@@ -11,6 +13,7 @@ use std::env::var;
 
 pub mod routes;
 pub mod services;
+pub mod wrappers;
 
 lazy_static! {
     pub static ref GOVEE_API_KEY: String =
@@ -29,5 +32,12 @@ fn rocket() -> _ {
         .mount("/tv", routes![tv_on_handler, tv_off_handler])
         .mount("/office", routes![office_on_handler, office_off_handler])
         .mount("/", routes![healthcheck_handler])
-        .mount("/", routes![get_all_devices_handler])
+        .mount(
+            "/",
+            routes![
+                get_all_devices_handler,
+                get_status_for_all_devices,
+                get_status_for_device,
+            ],
+        )
 }
