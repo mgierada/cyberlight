@@ -27,7 +27,13 @@ pub struct GoveeDeviceStatus {
     device: String,
     model: String,
     // properties: Vec<GoveeDeviceProperty>,
-    properties: HashMap<String, String>,
+    properties: HashMap<String, StringOrBool>,
+}
+
+#[derive(Debug, Serialize)]
+enum StringOrBool {
+    String(String),
+    Bool(bool),
 }
 
 #[derive(Debug, Serialize)]
@@ -64,14 +70,13 @@ pub fn wrap_model_and_devices(devices: Vec<Device>) -> Vec<GoveeModelAndDevice> 
 
 pub fn wrap_device_status(device: DataDeviceStatus) -> GoveeDeviceStatus {
     let mut properties = HashMap::new();
-
     for property in device.properties {
         match property {
             DeviceProperty::Online(value) => {
-                properties.insert("online".to_string(), value.to_string());
+                properties.insert("online".to_string(), StringOrBool::Bool(value));
             }
             DeviceProperty::PowerState(value) => {
-                properties.insert("powerState".to_string(), value);
+                properties.insert("powerState".to_string(), StringOrBool::String(value));
             }
             _ => {
                 // ignore other properties
