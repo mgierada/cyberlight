@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use serde::Serialize;
 
 use crate::services::govee_api_service::{DataDeviceStatus, Device, DeviceProperty};
@@ -30,11 +28,11 @@ pub struct GoveeDeviceStatus {
     // properties: HashMap<String, StringOrBool>,
 }
 
-#[derive(Debug, Serialize)]
-enum StringOrBool {
-    String(String),
-    Bool(bool),
-}
+// #[derive(Debug, Serialize)]
+// enum StringOrBool {
+//     String(String),
+//     Bool(bool),
+// }
 
 #[derive(Debug, Serialize)]
 enum GoveeDeviceProperty {
@@ -80,37 +78,10 @@ pub fn wrap_device_status(device: DataDeviceStatus) -> GoveeDeviceStatus {
             _ => None,
         })
         .collect::<Vec<GoveeDeviceProperty>>();
-    // let mut properties = Vec::new();
-    // for property in device.properties {
-    //     match property {
-    //         DeviceProperty::Online(value) => {
-    //             properties.push(GoveeDeviceProperty::Online(value));
-    //         }
-    //         DeviceProperty::PowerState(value) => {
-    //             properties.push(GoveeDeviceProperty::PowerState(value));
-    //         }
-    //         _ => {
-    //             // ignore other properties
-    //         }
-    //     }
-    // }
-    // let mut properties = HashMap::new();
-    // for property in device.properties {
-    //     match property {
-    //         DeviceProperty::Online(value) => {
-    //             properties.insert("online".to_string(), StringOrBool::Bool(value));
-    //         }
-    //         DeviceProperty::PowerState(value) => {
-    //             properties.insert("powerState".to_string(), StringOrBool::String(value));
-    //         }
-    //         _ => {
-    //             // ignore other properties
-    //         }
-    //     }
-    // }
     GoveeDeviceStatus {
         device: device.device.clone(),
         model: device.model.clone(),
+        // properties will return
         properties,
     }
 }
