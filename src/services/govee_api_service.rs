@@ -113,7 +113,7 @@ pub async fn sent_put_request(
     govee_root_url: &str,
     govee_api_key: &str,
     payload: PayloadBody,
-) -> () {
+) {
     let client = Client::new();
     let payload_json = json!(payload);
     let endpoint = format!("{}/v1/devices/control", govee_root_url);
