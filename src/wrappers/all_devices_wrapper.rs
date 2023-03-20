@@ -24,21 +24,6 @@ pub struct DeviceStatus {
     device: String,
     model: String,
     properties: Vec<GoveeDeviceProperty>,
-    // properties: HashMap<String, StringOrBool>,
-}
-
-// #[derive(Debug, Serialize)]
-// enum StringOrBool {
-//     String(String),
-//     Bool(bool),
-// }
-
-#[derive(Debug, Serialize)]
-enum DeviceProperty {
-    #[serde(rename = "online")]
-    Online(bool),
-    #[serde(rename = "powerState")]
-    PowerState(String),
 }
 
 pub fn wrap_devices(devices: Vec<GoveeDevice>) -> Vec<Device> {
