@@ -1,5 +1,5 @@
 use reqwest::{Client, Url};
-use serde::{Deserialize, Serialize, de};
+use serde::{de, Deserialize, Serialize};
 use serde_json::json;
 
 use super::light_setup_service::PayloadBody;
@@ -22,8 +22,8 @@ pub struct GoveeDataDeviceStatus {
     pub properties: Vec<GoveeDeviceProperty>,
 }
 
-#[derive(Debug, Deserialize,Serialize)]
-pub enum GoveeDeviceProperty{
+#[derive(Debug, Deserialize, Serialize)]
+pub enum GoveeDeviceProperty {
     #[serde(rename = "online")]
     #[serde(deserialize_with = "deserialize_bool")]
     // Online can be a boolean or a string
@@ -99,7 +99,9 @@ where
         serde_json::Value::Bool(b) => Ok(b),
         serde_json::Value::String(s) if s == "true" => Ok(true),
         serde_json::Value::String(s) if s == "false" => Ok(false),
-        _ => Err(serde::de::Error::custom("Expected a boolean or 'true'/'false' string")),
+        _ => Err(serde::de::Error::custom(
+            "Expected a boolean or 'true'/'false' string",
+        )),
     }
 }
 
@@ -124,7 +126,10 @@ pub async fn sent_put_request(
         .unwrap();
 }
 
-pub async fn get_all_devices(govee_root_url: &str, govee_api_key: &str) -> ApiResponseGoveeAllDevices {
+pub async fn get_all_devices(
+    govee_root_url: &str,
+    govee_api_key: &str,
+) -> ApiResponseGoveeAllDevices {
     let client = Client::new();
     let endpoint = format!("{}/v1/devices", govee_root_url);
     let response = client
