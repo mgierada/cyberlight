@@ -1,10 +1,10 @@
 use serde::Serialize;
 
-use crate::services::govee_api_service::{DataDeviceStatus, Device, DeviceProperty};
+use crate::services::govee_api_service::{GoveeDataDeviceStatus, GoveeDevice, GoveeDeviceProperty};
 
 #[derive(Debug, Serialize)]
 #[allow(non_snake_case)]
-pub struct GoveeDevice {
+pub struct Device {
     deviceName: String,
     device: String,
     model: String,
@@ -14,71 +14,55 @@ pub struct GoveeDevice {
 
 #[derive(Debug, Serialize)]
 #[allow(non_snake_case)]
-pub struct GoveeModelAndDevice {
+pub struct ModelAndDevice {
     deviceName: String,
     pub device: String,
     pub model: String,
 }
-
 #[derive(Debug, Serialize)]
-pub struct GoveeDeviceStatus {
+pub struct DeviceStatus {
     device: String,
     model: String,
     properties: Vec<GoveeDeviceProperty>,
-    // properties: HashMap<String, StringOrBool>,
 }
 
-// #[derive(Debug, Serialize)]
-// enum StringOrBool {
-//     String(String),
-//     Bool(bool),
-// }
-
-#[derive(Debug, Serialize)]
-enum GoveeDeviceProperty {
-    #[serde(rename = "online")]
-    Online(bool),
-    #[serde(rename = "powerState")]
-    PowerState(String),
-}
-
-pub fn wrap_devices(devices: Vec<Device>) -> Vec<GoveeDevice> {
+pub fn wrap_devices(devices: Vec<GoveeDevice>) -> Vec<Device> {
     devices
         .iter()
-        .map(|device| GoveeDevice {
+        .map(|device| Device {
             deviceName: device.deviceName.clone(),
             device: device.device.clone(),
             model: device.model.clone(),
             controllable: device.controllable,
             retrievable: device.retrievable,
         })
-        .collect::<Vec<GoveeDevice>>()
+        .collect::<Vec<Device>>()
 }
 
-pub fn wrap_model_and_devices(devices: Vec<Device>) -> Vec<GoveeModelAndDevice> {
+pub fn wrap_model_and_devices(devices: Vec<GoveeDevice>) -> Vec<ModelAndDevice> {
     devices
         .iter()
-        .map(|device| GoveeModelAndDevice {
+        .map(|device| ModelAndDevice {
             deviceName: device.deviceName.clone(),
             device: device.device.clone(),
             model: device.model.clone(),
         })
-        .collect::<Vec<GoveeModelAndDevice>>()
+        .collect::<Vec<ModelAndDevice>>()
 }
 
-pub fn wrap_device_status(device: DataDeviceStatus) -> GoveeDeviceStatus {
+pub fn wrap_device_status(device: GoveeDataDeviceStatus) -> DeviceStatus {
     let properties = device
         .properties
         .iter()
         .filter_map(|property| match property {
-            DeviceProperty::Online(value) => Some(GoveeDeviceProperty::Online(*value)),
-            DeviceProperty::PowerState(value) => {
+            GoveeDeviceProperty::Online(value) => Some(GoveeDeviceProperty::Online(*value)),
+            GoveeDeviceProperty::PowerState(value) => {
                 Some(GoveeDeviceProperty::PowerState(value.clone()))
             }
             _ => None,
         })
         .collect::<Vec<GoveeDeviceProperty>>();
-    GoveeDeviceStatus {
+    DeviceStatus {
         device: device.device.clone(),
         model: device.model.clone(),
         // properties will return
