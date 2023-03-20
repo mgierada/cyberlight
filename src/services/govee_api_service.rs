@@ -9,21 +9,21 @@ use super::light_setup_service::PayloadBody;
 // ------------------------
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct ApiResponseDeviceStatus {
+pub struct ApiResponseGoveeDeviceStatus {
     code: i16,
     message: String,
-    pub data: Option<DataDeviceStatus>,
+    pub data: Option<GoveeDataDeviceStatus>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct DataDeviceStatus {
+pub struct GoveeDataDeviceStatus {
     pub device: String,
     pub model: String,
-    pub properties: Vec<DeviceProperty>,
+    pub properties: Vec<GoveeDeviceProperty>,
 }
 
 #[derive(Debug, Deserialize,Serialize)]
-pub enum DeviceProperty{
+pub enum GoveeDeviceProperty{
     #[serde(rename = "online")]
     #[serde(deserialize_with = "deserialize_bool")]
     // Online can be a boolean or a string
@@ -44,20 +44,20 @@ pub struct Color {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct ApiResponseAllDevices {
+pub struct ApiResponseGoveeAllDevices {
     code: i16,
     message: String,
-    pub data: Option<Data>,
+    pub data: Option<GoveeData>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct Data {
-    pub devices: Vec<Device>,
+pub struct GoveeData {
+    pub devices: Vec<GoveeDevice>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 #[allow(non_snake_case)]
-pub struct Device {
+pub struct GoveeDevice {
     pub device: String,
     pub model: String,
     pub deviceName: String,
@@ -124,7 +124,7 @@ pub async fn sent_put_request(
         .unwrap();
 }
 
-pub async fn get_all_devices(govee_root_url: &str, govee_api_key: &str) -> ApiResponseAllDevices {
+pub async fn get_all_devices(govee_root_url: &str, govee_api_key: &str) -> ApiResponseGoveeAllDevices {
     let client = Client::new();
     let endpoint = format!("{}/v1/devices", govee_root_url);
     let response = client
@@ -133,8 +133,8 @@ pub async fn get_all_devices(govee_root_url: &str, govee_api_key: &str) -> ApiRe
         .send()
         .await
         .unwrap()
-        .json::<ApiResponseAllDevices>();
-    let response_json: ApiResponseAllDevices = response.await.unwrap();
+        .json::<ApiResponseGoveeAllDevices>();
+    let response_json: ApiResponseGoveeAllDevices = response.await.unwrap();
     response_json
 }
 
@@ -143,7 +143,7 @@ pub async fn get_device_status(
     govee_api_key: &str,
     device: &str,
     model: &str,
-) -> ApiResponseDeviceStatus {
+) -> ApiResponseGoveeDeviceStatus {
     let client = Client::new();
     let params = [("device", device), ("model", model)];
     let endpoint = format!("{}/v1/devices/state", govee_root_url);
@@ -154,7 +154,7 @@ pub async fn get_device_status(
         .send()
         .await
         .unwrap()
-        .json::<ApiResponseDeviceStatus>();
-    let response_json: ApiResponseDeviceStatus = response.await.unwrap();
+        .json::<ApiResponseGoveeDeviceStatus>();
+    let response_json: ApiResponseGoveeDeviceStatus = response.await.unwrap();
     response_json
 }
