@@ -23,6 +23,9 @@ lazy_static! {
     pub static ref GOVEE_ROOT_URL: String =
         var("GOVEE_ROOT_URL").expect("GOVEE_ROOT_URL must be set.");
 }
+lazy_static! {
+    pub static ref ACCESS_TOKEN: String = var("ACCESS_TOKEN").expect("ACCESS_TOKEN must be set.");
+}
 
 #[launch]
 fn rocket() -> _ {
