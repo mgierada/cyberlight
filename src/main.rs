@@ -11,6 +11,7 @@ use routes::office_lamp_routes::{office_off_handler, office_on_handler};
 use routes::tv_lamp_routes::{tv_off_handler, tv_on_handler};
 use std::env::var;
 
+pub mod implementations;
 pub mod routes;
 pub mod services;
 pub mod wrappers;
