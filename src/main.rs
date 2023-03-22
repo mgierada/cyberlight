@@ -11,6 +11,7 @@ use routes::office_lamp_routes::{office_off_handler, office_on_handler};
 use routes::tv_lamp_routes::{tv_off_handler, tv_on_handler};
 use std::env::var;
 
+pub mod implementations;
 pub mod routes;
 pub mod services;
 pub mod wrappers;
@@ -22,6 +23,9 @@ lazy_static! {
 lazy_static! {
     pub static ref GOVEE_ROOT_URL: String =
         var("GOVEE_ROOT_URL").expect("GOVEE_ROOT_URL must be set.");
+}
+lazy_static! {
+    pub static ref ACCESS_TOKEN: String = var("ACCESS_TOKEN").expect("ACCESS_TOKEN must be set.");
 }
 
 #[launch]
