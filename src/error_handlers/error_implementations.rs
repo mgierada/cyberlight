@@ -13,6 +13,11 @@ pub struct NotFoundError {
     pub error: String,
 }
 
+#[derive(Debug, Serialize)]
+pub struct ServerError {
+    pub error: String,
+}
+
 impl<'r> Responder<'r, 'static> for AuthError {
     fn respond_to(self, _: &rocket::Request<'_>) -> rocket::response::Result<'static> {
         let json = serde_json::to_string(&self).unwrap();
@@ -29,6 +34,17 @@ impl<'r> Responder<'r, 'static> for NotFoundError {
         let json = serde_json::to_string(&self).unwrap();
         Ok(Response::build()
             .status(Status::NotFound)
+            .header(ContentType::JSON)
+            .sized_body(json.len(), std::io::Cursor::new(json))
+            .finalize())
+    }
+}
+
+impl<'r> Responder<'r, 'static> for ServerError {
+    fn respond_to(self, _: &rocket::Request<'_>) -> rocket::response::Result<'static> {
+        let json = serde_json::to_string(&self).unwrap();
+        Ok(Response::build()
+            .status(Status::InternalServerError)
             .header(ContentType::JSON)
             .sized_body(json.len(), std::io::Cursor::new(json))
             .finalize())
