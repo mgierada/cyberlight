@@ -2,6 +2,7 @@ use crate::ACCESS_TOKEN;
 use rocket::http::{ContentType, Status};
 use rocket::request::{FromRequest, Outcome};
 use rocket::response::Responder;
+use rocket::serde::json::Json;
 use rocket::{Request, Response};
 use serde::{Deserialize, Serialize};
 
@@ -97,6 +98,16 @@ impl<'r> FromRequest<'r> for Token {
         }
     }
 }
+
+
+#[rocket::catch(default)]
+pub async fn auth_error_catcher(status: Status, error: &Request<'_>) -> Json<AuthError> {
+    let auth_error = AuthError {
+        error: error.to_string(),
+    };
+    Json(auth_error)
+}
+
 //
 // #[rocket::async_trait]
 // impl<'r> FromRequest<'r> for Token {
