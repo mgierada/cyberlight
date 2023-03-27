@@ -3,7 +3,7 @@ use rocket::serde::json::Json;
 use super::error_implementations::{AuthError, NotFoundError, ServerError};
 
 #[catch(401)]
-pub async fn ununauthorized() -> Json<AuthError> {
+pub fn ununauthorized() -> Json<AuthError> {
     let auth_error = AuthError {
         error: "Invalid Authorization token".to_string(),
     };
@@ -20,7 +20,7 @@ pub fn not_found() -> Json<NotFoundError> {
 
 #[catch(500)]
 pub fn server_error() -> Json<ServerError> {
-    let server_error= ServerError{
+    let server_error = ServerError {
         error: "Page not found".to_string(),
     };
     Json(server_error)
