@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate rocket;
 use dotenv::dotenv;
-use error_handlers::custom_error_handlers::ununauthorized;
+use error_handlers::error_handlers::{not_found, ununauthorized};
 use lazy_static::lazy_static;
 use routes::all_devices_routes::{
     get_all_devices_handler, get_status_for_all_devices, get_status_for_device,
@@ -34,7 +34,7 @@ fn rocket() -> _ {
     // read .env file
     dotenv().ok();
     rocket::build()
-        .register("/", catchers![ununauthorized])
+        .register("/", catchers![ununauthorized, not_found])
         .mount("/tv", routes![tv_on_handler, tv_off_handler])
         .mount("/office", routes![office_on_handler, office_off_handler])
         .mount("/", routes![healthcheck_handler])

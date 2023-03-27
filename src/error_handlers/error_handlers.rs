@@ -1,6 +1,6 @@
 use rocket::serde::json::Json;
 
-use crate::implementations::access_token::AuthError;
+use super::error_implementations::{AuthError, NotFoundError};
 
 #[catch(401)]
 pub async fn ununauthorized() -> Json<AuthError> {
@@ -11,9 +11,9 @@ pub async fn ununauthorized() -> Json<AuthError> {
 }
 
 #[catch(404)]
-pub fn not_found() -> Json<AuthError>{
-    let auth_error = AuthError {
+pub fn not_found() -> Json<NotFoundError> {
+    let not_found_error = NotFoundError {
         error: "Page not found".to_string(),
     };
-    Json(auth_error)
+    Json(not_found_error)
 }
