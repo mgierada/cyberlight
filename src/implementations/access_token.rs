@@ -2,7 +2,6 @@ use crate::ACCESS_TOKEN;
 use rocket::http::{ContentType, Status};
 use rocket::request::{FromRequest, Outcome};
 use rocket::response::Responder;
-use rocket::serde::json::Json;
 use rocket::{Request, Response};
 use serde::{Deserialize, Serialize};
 
@@ -11,7 +10,7 @@ pub struct Token(String);
 
 #[derive(Debug, Serialize)]
 pub struct AuthError {
-    error: String,
+    pub error: String,
 }
 
 impl<'r> Responder<'r, 'static> for AuthError {
@@ -54,10 +53,3 @@ impl<'r> FromRequest<'r> for Token {
     }
 }
 
-#[catch(default)]
-pub async fn auth_error_catcher() -> Json<AuthError> {
-    let auth_error = AuthError {
-        error: "Invalid Authorization token".to_string(),
-    };
-    Json(auth_error)
-}
