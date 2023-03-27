@@ -6,30 +6,6 @@ use rocket::serde::json::Json;
 use rocket::{Request, Response};
 use serde::{Deserialize, Serialize};
 
-
-
-// impl<'r> Responder<'r, 'static> for ApiResponse {
-//     fn respond_to(self, _: &Request<'_>) -> Result<Response<'static>, Status> {
-//         let json = serde_json::json!({ "error": self.error });
-//         let response = Response::build()
-//             .header(ContentType::JSON)
-//             .status(Status::InternalServerError)
-//             .sized_body(
-//                 json.to_string().len(),
-//                 std::io::Cursor::new(json.to_string()),
-//             )
-//             .finalize();
-//         Ok(response)
-//     }
-// }
-//
-// #[catch(500)]
-// pub fn internal_server_error() -> ApiResponse {
-//     ApiResponse {
-//         error: "Internal Server Error".to_string(),
-//     }
-// }
-
 #[derive(Debug, Deserialize, PartialEq)]
 pub struct Token(String);
 
@@ -57,7 +33,7 @@ impl<'r> FromRequest<'r> for Token {
         let auth_header = request.headers().get_one("Authorization");
 
         if let Some(auth_token) = auth_header {
-            if auth_token == ACCESS_TOKEN.to_string(){
+            if auth_token == ACCESS_TOKEN.to_string() {
                 Outcome::Success(Token(auth_token.to_string()))
             } else {
                 Outcome::Failure((
@@ -78,7 +54,6 @@ impl<'r> FromRequest<'r> for Token {
     }
 }
 
-
 #[catch(default)]
 pub async fn auth_error_catcher() -> Json<AuthError> {
     let auth_error = AuthError {
@@ -86,4 +61,3 @@ pub async fn auth_error_catcher() -> Json<AuthError> {
     };
     Json(auth_error)
 }
-

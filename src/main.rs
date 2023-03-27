@@ -1,9 +1,7 @@
 #[macro_use]
 extern crate rocket;
-
 use dotenv::dotenv;
 use implementations::access_token::auth_error_catcher;
-// use implementations::access_token::internal_server_error;
 use lazy_static::lazy_static;
 use routes::all_devices_routes::{
     get_all_devices_handler, get_status_for_all_devices, get_status_for_device,
@@ -35,7 +33,6 @@ fn rocket() -> _ {
     // read .env file
     dotenv().ok();
     rocket::build()
-        // .register(catchers![internal_server_error])
         .register("/", catchers![auth_error_catcher])
         .mount("/tv", routes![tv_on_handler, tv_off_handler])
         .mount("/office", routes![office_on_handler, office_off_handler])
