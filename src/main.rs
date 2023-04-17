@@ -38,10 +38,10 @@ fn rocket() -> _ {
         .register("/", catchers![ununauthorized, not_found, server_error])
         .mount("/tv", routes![tv_on_handler, tv_off_handler])
         .mount("/office", routes![office_on_handler, office_off_handler])
-        .mount("/", routes![healthcheck_handler])
         .mount(
             "/",
             routes![
+                healthcheck_handler,
                 get_all_devices_handler,
                 get_status_for_all_devices,
                 get_status_for_device,
