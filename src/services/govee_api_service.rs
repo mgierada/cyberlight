@@ -34,6 +34,10 @@ pub enum GoveeDeviceProperty {
     Brightness(i16),
     #[serde(rename = "color")]
     Color(Color),
+    #[serde(rename = "colorTem")]
+    ColorTem(i16),
+    #[serde(rename = "colorTemInKelvin")]
+    ColorTemInKelvin(i16),
 }
 
 #[derive(Debug, Deserialize, Serialize)]
