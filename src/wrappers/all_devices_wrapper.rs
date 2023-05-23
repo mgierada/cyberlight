@@ -5,11 +5,11 @@ use crate::services::govee_api_service::{GoveeDataDeviceStatus, GoveeDevice, Gov
 #[derive(Debug, Serialize)]
 #[allow(non_snake_case)]
 pub struct Device {
-    deviceName: String,
-    device: String,
-    model: String,
-    controllable: bool,
-    retrievable: bool,
+    pub deviceName: String,
+    pub device: String,
+    pub model: String,
+    pub controllable: bool,
+    pub retrievable: bool,
 }
 
 #[derive(Debug, Serialize)]

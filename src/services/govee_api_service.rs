@@ -74,18 +74,18 @@ pub struct GoveeDevice {
 #[derive(Debug, Deserialize, Serialize)]
 #[allow(non_snake_case)]
 pub struct Properties {
-    colorTem: ColorTem,
+    pub colorTem: ColorTem,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct ColorTem {
-    range: ColorTemRange,
+    pub range: ColorTemRange,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct ColorTemRange {
-    min: i16,
-    max: i16,
+    pub min: i16,
+    pub max: i16,
 }
 
 // ------------------------
