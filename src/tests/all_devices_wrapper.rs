@@ -5,8 +5,6 @@ mod tests {
         wrappers::all_devices_wrapper::wrap_devices,
     };
 
-    use super::*;
-
     #[test]
     fn test_wrap_devices() {
         let devices = vec![
