@@ -1,14 +1,14 @@
-name: Refresh server
-
-on:
-  schedule:
-    - cron: "*/15 8-17 * * 1-5"
-jobs:
-  build:
-    name: Trigger healthcheck endpoint
-    runs-on: ubuntu-latest
-    steps:
-      - name: send CURL request
-        run: |
-          set +x
-          curl "${{ vars.DEPLOY_ROOT_URL }}/healthcheck"
+# name: Refresh server
+#
+# on:
+#   schedule:
+#     - cron: "*/15 8-17 * * 1-5"
+# jobs:
+#   build:
+#     name: Trigger healthcheck endpoint
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: send CURL request
+#         run: |
+#           set +x
+#           curl "${{ vars.DEPLOY_ROOT_URL }}/healthcheck"
