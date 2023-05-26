@@ -15,3 +15,8 @@ lazy_static = "1.4.0"
 [dependencies.rocket]
 version = "0.5.0-rc.1"
 features = ["json"]
+
+[[bin]]
+name = "rust_that_light"
+path = "src/main.rs"
+
