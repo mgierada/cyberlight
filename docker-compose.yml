@@ -2,6 +2,5 @@ version: "3"
 services:
   app:
     build: .
-    network_mode: host
     ports:
       - "8000:8000"

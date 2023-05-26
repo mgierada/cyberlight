@@ -20,12 +20,8 @@ COPY src/ ./src/
 # Build the dependencies
 RUN cargo build --release
 
-# Build the app
-RUN cargo build --release
-
-# Start the app
-CMD ["cargo", "run", "--release"]
-
 # Expose the port that the app listens on
 EXPOSE 8000
 
+# Start the app
+CMD ["cargo", "run"] 
