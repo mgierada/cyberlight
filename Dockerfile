@@ -1,6 +1,10 @@
 # Use the official Rust image as the base image
 FROM rust:latest
 
+# Install the necessary tools
+RUN rustup update
+RUN rustup default nightly
+
 # Set the working directory to /app
 WORKDIR /app
 
@@ -20,4 +24,4 @@ RUN cargo build --release
 EXPOSE 8000
 
 # Start the app
-CMD ["./target/release/rust_that_light"]
+CMD ["cargo", "run"]
