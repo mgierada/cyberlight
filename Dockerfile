@@ -7,11 +7,11 @@ WORKDIR /app
 # Copy the Cargo.toml and Cargo.lock files to the container
 COPY Cargo.toml Cargo.lock ./
 
-# Build the dependencies
-RUN cargo build --release
-
 # Copy the source code to the container
 COPY src/ ./src/
+
+# Build the dependencies
+RUN cargo build --release
 
 # Build the app
 RUN cargo build --release
