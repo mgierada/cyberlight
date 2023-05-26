@@ -21,7 +21,7 @@ pub fn not_found() -> Json<NotFoundError> {
 #[catch(500)]
 pub fn server_error() -> Json<ServerError> {
     let server_error = ServerError {
-        error: "Page not found".to_string(),
+        error: "Something unexpected occurred".to_string(),
     };
     Json(server_error)
 }
