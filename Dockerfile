@@ -12,7 +12,7 @@ ENV ROCKET_PORT=8000
 WORKDIR /app
 
 # Copy the Cargo.toml and Cargo.lock files to the container
-COPY Cargo.toml Cargo.lock ./
+COPY Cargo.toml Cargo.lock .env ./
 
 # Copy the source code to the container
 COPY src/ ./src/
