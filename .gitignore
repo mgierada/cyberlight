@@ -11,5 +11,5 @@ Cargo.lock
 
 *.env
 
-AWS related files
+# AWS related files
 aws/*
