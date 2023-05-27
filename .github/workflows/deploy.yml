@@ -1,0 +1,17 @@
+name: Deploy
+
+on:
+  push:
+    branches: ["main"]
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get-token
+        run: aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 458814646445.dkr.ecr.eu-north-1.amazonaws.com
+      - name: build-docker-image
+        run: docker build -t rust_that_light .
+      - name: tag-docker-image
+        run: docker tag rust_that_light:latest 458814646445.dkr.ecr.eu-north-1.amazonaws.com/rust_that_light:latest
+      - name: push to ECR
+        run: docker push 458814646445.dkr.ecr.eu-north-1.amazonaws.com/rust_that_light:latest
