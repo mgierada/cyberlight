@@ -1,5 +1,5 @@
 # Use the official Rust image as the base image
-FROM --platform=linux/amd64 rust:latest
+FROM rust:latest
 
 # Install the necessary tools
 RUN rustup update
