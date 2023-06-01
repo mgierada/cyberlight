@@ -12,7 +12,7 @@ ENV ROCKET_PORT=8000
 WORKDIR /app
 
 # Copy the Cargo.toml and Cargo.lock files to the container
-COPY Cargo.toml Cargo.lock .env ./
+COPY Cargo.toml Cargo.lock ./
 
 # Copy the source code to the container
 COPY src/ ./src/
@@ -24,4 +24,5 @@ RUN cargo build --release
 EXPOSE 8000
 
 # Start the app
-CMD ["cargo", "run"] 
+CMD ["cargo", "run", "--release"]
+

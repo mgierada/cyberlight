@@ -14,7 +14,7 @@ sudo apt install awscli
 # Configure aws cli
 aws configure
 # Login to ECR
-$(aws ecr get-login --no-include-email --region us-east-2)
+aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 458814646445.dkr.ecr.eu-north-1.amazonaws.com
 # pull docker image from ECR
 docker pull 458814646445.dkr.ecr.eu-north-1.amazonaws.com/rust_that_light:latest
 

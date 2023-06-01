@@ -24,4 +24,4 @@ RUN cargo build --release
 EXPOSE 8000
 
 # Start the app
-CMD ["cargo", "run"] 
+CMD ["cargo", "run", "--release"] 

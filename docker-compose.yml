@@ -3,6 +3,6 @@ services:
   app:
     build: .
       context: .
-      dockerfile: Dockerfile_arm
+      dockerfile: Dockerfile_dev
     ports:
       - "8000:8000"
