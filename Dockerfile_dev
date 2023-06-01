@@ -1,5 +1,5 @@
 # Use the official Rust image as the base image
-FROM --platform=linux/amd64 rust:latest
+FROM rust:latest
 
 # Install the necessary tools
 RUN rustup update
@@ -12,7 +12,7 @@ ENV ROCKET_PORT=8000
 WORKDIR /app
 
 # Copy the Cargo.toml and Cargo.lock files to the container
-COPY Cargo.toml Cargo.lock ./
+COPY Cargo.toml Cargo.lock .env ./
 
 # Copy the source code to the container
 COPY src/ ./src/
@@ -24,5 +24,4 @@ RUN cargo build --release
 EXPOSE 8000
 
 # Start the app
-CMD ["cargo", "run", "--release"]
-
+CMD ["cargo", "run", "--release"] 
