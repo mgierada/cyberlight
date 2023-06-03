@@ -3,15 +3,15 @@ use std::env::var;
 
 #[derive(Serialize)]
 pub struct PayloadBody {
-    device: String,
-    model: String,
-    cmd: GoveeCommand,
+    pub device: String,
+    pub model: String,
+    pub cmd: GoveeCommand,
 }
 
 #[derive(Serialize, Deserialize)]
-struct GoveeCommand {
-    name: String,
-    value: String,
+pub struct GoveeCommand {
+    pub name: String,
+    pub value: String,
 }
 
 pub fn tv_light_setup(command: &str) -> PayloadBody {
