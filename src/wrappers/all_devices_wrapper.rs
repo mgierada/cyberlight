@@ -61,11 +61,10 @@ pub fn wrap_device_status(device: GoveeDataDeviceStatus) -> DeviceStatus {
             }
             _ => None,
         })
-        .collect::<Vec<GoveeDeviceProperty>>();
+        .collect();
     DeviceStatus {
         device: device.device.clone(),
         model: device.model.clone(),
-        // properties will return
         properties,
     }
 }
