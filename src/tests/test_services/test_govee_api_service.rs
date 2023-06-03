@@ -37,39 +37,3 @@ mod tests {
         mock_endpoint.assert();
     }
 }
-
-// async fn test_sent_put_request() {
-//     let mock_endpoint = mock("put", "/v1/devices/control")
-//         .match_header("govee-api-key", "test_key")
-//         .with_status(200)
-//         .create();
-//     let payload = payloadbody {
-//         device: "test_device".to_string(),
-//         model: "test_model".to_string(),
-//         cmd: "test_cmd".to_string(),
-//         value: "test_value".to_string(),
-//     };
-//     sent_put_request("http://localhost:1234", "test_key", payload).await;
-//     mock_endpoint.assert();
-// }
-
-// Assert
-// Check that the request was successful
-// and that the response status code is 2xx
-
-// #[test]
-// fn test_payload_body_serialization() {
-//     // Arrange
-//     let payload = PayloadBody {
-//         device: "device_id".to_string(),
-//         cmd: "turn_on".to_string(),
-//         value: None,
-//     };
-//
-//     // Act
-//     let payload_json = json!(payload);
-//
-//     // Assert
-//     // Check that the payload JSON is correctly serialized
-//     // and contains the expected fields and values
-// }
