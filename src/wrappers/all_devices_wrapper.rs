@@ -19,11 +19,11 @@ pub struct ModelAndDevice {
     pub device: String,
     pub model: String,
 }
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, PartialEq)]
 pub struct DeviceStatus {
-    device: String,
-    model: String,
-    properties: Vec<GoveeDeviceProperty>,
+    pub device: String,
+    pub model: String,
+    pub properties: Vec<GoveeDeviceProperty>,
 }
 
 pub fn wrap_devices(devices: Vec<GoveeDevice>) -> Vec<Device> {

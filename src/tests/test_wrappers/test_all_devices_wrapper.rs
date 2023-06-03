@@ -1,8 +1,13 @@
 #[cfg(test)]
 mod tests {
     use crate::{
-        services::govee_api_service::{ColorTem, ColorTemRange, GoveeDevice, Properties},
-        wrappers::all_devices_wrapper::{wrap_devices, wrap_model_and_devices, ModelAndDevice},
+        services::govee_api_service::{
+            ColorTem, ColorTemRange, GoveeDataDeviceStatus, GoveeDevice, GoveeDeviceProperty,
+            Properties,
+        },
+        wrappers::all_devices_wrapper::{
+            wrap_device_status, wrap_devices, wrap_model_and_devices, DeviceStatus, ModelAndDevice,
+        },
     };
 
     #[test]
@@ -94,5 +99,26 @@ mod tests {
         ];
 
         assert_eq!(wrap_model_and_devices(devices), expected_output);
+    }
+    #[test]
+    fn test_wrap_device_status() {
+        let device = GoveeDataDeviceStatus {
+            device: "device1".to_string(),
+            model: "model1".to_string(),
+            properties: vec![
+                GoveeDeviceProperty::Online(true),
+                GoveeDeviceProperty::PowerState("on".to_string()),
+                GoveeDeviceProperty::Brightness(50),
+            ],
+        };
+        let expected = DeviceStatus {
+            device: "device1".to_string(),
+            model: "model1".to_string(),
+            properties: vec![
+                GoveeDeviceProperty::Online(true),
+                GoveeDeviceProperty::PowerState("on".to_string()),
+            ],
+        };
+        assert_eq!(wrap_device_status(device), expected);
     }
 }

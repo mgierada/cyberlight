@@ -22,7 +22,7 @@ pub struct GoveeDataDeviceStatus {
     pub properties: Vec<GoveeDeviceProperty>,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, PartialEq)]
 pub enum GoveeDeviceProperty {
     #[serde(rename = "online")]
     #[serde(deserialize_with = "deserialize_bool")]
@@ -40,7 +40,7 @@ pub enum GoveeDeviceProperty {
     ColorTemInKelvin(i16),
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, PartialEq)]
 pub struct Color {
     r: u8,
     g: u8,
