@@ -12,10 +12,10 @@ pub struct Device {
     pub retrievable: bool,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, PartialEq)]
 #[allow(non_snake_case)]
 pub struct ModelAndDevice {
-    deviceName: String,
+    pub deviceName: String,
     pub device: String,
     pub model: String,
 }

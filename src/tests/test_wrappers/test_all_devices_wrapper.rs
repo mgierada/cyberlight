@@ -2,7 +2,7 @@
 mod tests {
     use crate::{
         services::govee_api_service::{ColorTem, ColorTemRange, GoveeDevice, Properties},
-        wrappers::all_devices_wrapper::wrap_devices,
+        wrappers::all_devices_wrapper::{wrap_devices, wrap_model_and_devices, ModelAndDevice},
     };
 
     #[test]
@@ -47,5 +47,52 @@ mod tests {
         assert_eq!(wrapped_devices[1].model, "model2");
         assert_eq!(wrapped_devices[1].controllable, false);
         assert_eq!(wrapped_devices[1].retrievable, true);
+    }
+
+    #[test]
+    fn test_wrap_model_and_devices() {
+        let devices = vec![
+            GoveeDevice {
+                deviceName: "Device 1".to_string(),
+                device: "ABC123".to_string(),
+                model: "Model 1".to_string(),
+                controllable: true,
+                retrievable: true,
+                supportCmds: vec![],
+                properties: Properties {
+                    colorTem: ColorTem {
+                        range: ColorTemRange { min: 0, max: 0 },
+                    },
+                },
+            },
+            GoveeDevice {
+                deviceName: "Device 2".to_string(),
+                device: "DEF456".to_string(),
+                model: "Model 2".to_string(),
+                controllable: true,
+                retrievable: true,
+                supportCmds: vec![],
+                properties: Properties {
+                    colorTem: ColorTem {
+                        range: ColorTemRange { min: 0, max: 0 },
+                    },
+                },
+            },
+        ];
+
+        let expected_output = vec![
+            ModelAndDevice {
+                deviceName: "Device 1".to_string(),
+                device: "ABC123".to_string(),
+                model: "Model 1".to_string(),
+            },
+            ModelAndDevice {
+                deviceName: "Device 2".to_string(),
+                device: "DEF456".to_string(),
+                model: "Model 2".to_string(),
+            },
+        ];
+
+        assert_eq!(wrap_model_and_devices(devices), expected_output);
     }
 }
