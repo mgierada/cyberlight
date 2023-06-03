@@ -8,20 +8,14 @@ mod tests {
 
     #[tokio::test]
     async fn test_sent_put_request() {
-        // Request a new server from the pool
         let mut server = mockito::Server::new();
-
-        // Use one of these addresses to configure your client
-        let url = server.url();
+        let govee_root_url = server.url();
         let govee_api_key = "1234567890";
         let mock_endpoint = server
             .mock("put", "/v1/devices/control")
             .match_header("govee-api-key", govee_api_key)
             .with_status(200)
             .create();
-
-        // Arrange
-        let govee_root_url = url;
         let command = GoveeCommand {
             name: "turn".to_string(),
             value: "on".to_string(),
@@ -31,8 +25,6 @@ mod tests {
             model: "model_id".to_string(),
             cmd: command,
         };
-
-        // Act
         sent_put_request(&govee_root_url, govee_api_key, payload).await;
         mock_endpoint.assert();
     }
