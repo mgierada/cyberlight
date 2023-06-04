@@ -38,6 +38,35 @@ mod tests {
             .mock("get", "/v1/devices")
             .match_header("govee-api-key", govee_api_key)
             .with_status(200)
+            .with_body(
+                r#"{
+                    "code": 200,
+                    "message": "Success",
+                    "devices": [
+                        {
+                            "device": "device_id",
+                            "model": "model_id",
+                            "deviceName": "device_name",
+                            "controllable": true,
+                            "retrievable": true,
+                            "supportCmds": [
+                                "turn",
+                                "brightness",
+                                "color",
+                                "colorTem"
+                            ],
+                            "properties": {
+                                "colorTem": {
+                                    "range": {
+                                        "min": 2000,
+                                        "max": 9000
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }"#,
+            )
             .create();
         get_all_devices(&govee_root_url, &govee_api_key).await;
         mock_endpoint.assert();
