@@ -59,7 +59,7 @@ mod tests {
                                 "colorTem": {
                                     "range": {
                                         "min": 2000,
-                                        "max": 9000
+                                        "max": 9001
                                     }
                                 }
                             }
