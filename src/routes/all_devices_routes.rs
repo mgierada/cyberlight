@@ -43,3 +43,4 @@ pub async fn get_status_for_device(device: String, model: String) -> Json<serde_
     let raw_devices_status = raw_response.data.unwrap();
     Json(serde_json::json!({ "status": raw_devices_status }))
 }
+
