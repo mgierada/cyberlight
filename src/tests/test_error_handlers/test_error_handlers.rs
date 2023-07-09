@@ -3,7 +3,7 @@ mod tests {
     use rocket::http::Status;
     use rocket::local::blocking::Client;
 
-    use crate::error_handlers::error_implementations::{AuthError, NotFoundError, ServerError};
+    use crate::error_handlers::error_implementations::{AuthError, NotFoundError};
     use crate::rocket;
 
     #[test]
