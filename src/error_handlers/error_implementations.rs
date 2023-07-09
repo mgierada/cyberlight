@@ -1,19 +1,19 @@
 use rocket::http::{ContentType, Status};
 use rocket::response::Responder;
 use rocket::Response;
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct AuthError {
     pub error: String,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct NotFoundError {
     pub error: String,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct ServerError {
     pub error: String,
 }
