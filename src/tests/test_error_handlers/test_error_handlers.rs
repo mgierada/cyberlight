@@ -1,10 +1,9 @@
 #[cfg(test)]
 mod tests {
-    use rocket::http::Status;
-    use rocket::local::blocking::Client;
-
     use crate::error_handlers::error_implementations::{AuthError, NotFoundError};
     use crate::rocket;
+    use rocket::http::Status;
+    use rocket::local::blocking::Client;
 
     #[test]
     fn test_unauthorized_handler() {
@@ -26,4 +25,3 @@ mod tests {
         assert_eq!(error.error, "Page not found");
     }
 }
-
