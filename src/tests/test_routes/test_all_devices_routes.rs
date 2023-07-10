@@ -5,22 +5,31 @@ pub mod tests {
     use rocket::local::blocking::Client;
 
     #[test]
+    // TODO: Add validation for each devices fields
     fn test_get_all_devices_handler() {
         let client = Client::untracked(crate::rocket()).expect("valid rocket instance");
         let response = client.get("/devices").dispatch();
         assert_eq!(response.status(), Status::Ok);
-        // Add more assertions to validate the response body
+        let json_body = response.into_string().unwrap();
+        let parsed_json: serde_json::Value = serde_json::from_str(&json_body).unwrap();
+        assert!(parsed_json["devices"].is_array());
+        assert!(parsed_json["devices"].as_array().unwrap().len() > 0);
     }
 
     #[test]
+    // TODO: Add validation of status fields
     fn test_get_status_for_all_devices() {
         let client = Client::untracked(crate::rocket()).expect("valid rocket instance");
         let response = client.get("/status").dispatch();
         assert_eq!(response.status(), Status::Ok);
-        // Add more assertions to validate the response body
+        let json_body = response.into_string().unwrap();
+        let parsed_json: serde_json::Value = serde_json::from_str(&json_body).unwrap();
+        assert!(parsed_json["status"].is_array());
+        assert!(parsed_json["status"].as_array().unwrap().len() > 0);
     }
 
     #[test]
+    // TODO: Add validation of properties fields
     fn test_get_status_for_device() {
         let client = Client::untracked(crate::rocket()).expect("valid rocket instance");
         let response = client.get("/status/46:BA:A4:C1:38:1D:CF:A8/H6143").dispatch();
@@ -34,11 +43,5 @@ pub mod tests {
         assert!(response["properties"].is_array());
         let properties = response["properties"].as_array().unwrap();
         assert!(properties.len() > 0);
-        let property = properties[0].as_object().unwrap();
-        println!("{:?}", property);
-        // assert!(property["online"].is_boolean());
-        // assert!(property["powerState"].is_string());
-        // assert!(property["brightness"].is_number());
-        // assert!(property["color"].is_string());
     }
 }
