@@ -16,6 +16,7 @@ pub mod error_handlers;
 pub mod implementations;
 pub mod routes;
 pub mod services;
+pub mod tests;
 pub mod wrappers;
 
 lazy_static! {

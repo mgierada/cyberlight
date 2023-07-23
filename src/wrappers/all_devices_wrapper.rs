@@ -5,25 +5,25 @@ use crate::services::govee_api_service::{GoveeDataDeviceStatus, GoveeDevice, Gov
 #[derive(Debug, Serialize)]
 #[allow(non_snake_case)]
 pub struct Device {
-    deviceName: String,
-    device: String,
-    model: String,
-    controllable: bool,
-    retrievable: bool,
+    pub deviceName: String,
+    pub device: String,
+    pub model: String,
+    pub controllable: bool,
+    pub retrievable: bool,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, PartialEq)]
 #[allow(non_snake_case)]
 pub struct ModelAndDevice {
-    deviceName: String,
+    pub deviceName: String,
     pub device: String,
     pub model: String,
 }
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, PartialEq)]
 pub struct DeviceStatus {
-    device: String,
-    model: String,
-    properties: Vec<GoveeDeviceProperty>,
+    pub device: String,
+    pub model: String,
+    pub properties: Vec<GoveeDeviceProperty>,
 }
 
 pub fn wrap_devices(devices: Vec<GoveeDevice>) -> Vec<Device> {
@@ -61,11 +61,10 @@ pub fn wrap_device_status(device: GoveeDataDeviceStatus) -> DeviceStatus {
             }
             _ => None,
         })
-        .collect::<Vec<GoveeDeviceProperty>>();
+        .collect();
     DeviceStatus {
         device: device.device.clone(),
         model: device.model.clone(),
-        // properties will return
         properties,
     }
 }

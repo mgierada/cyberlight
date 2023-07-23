@@ -25,3 +25,4 @@ pub fn server_error() -> Json<ServerError> {
     };
     Json(server_error)
 }
+
