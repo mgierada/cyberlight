@@ -1,10 +1,11 @@
 use crate::services::govee_api_service::{
-    get_all_devices, get_device_status, ApiResponseGoveeAllDevices, ApiResponseGoveeDeviceStatus,
+    get_device_status,  ApiResponseGoveeDeviceStatus,
 };
 use crate::wrappers::all_devices_wrapper::{
     wrap_device_status, wrap_devices, wrap_model_and_devices, DeviceStatus,
 };
 use crate::{GOVEE_API_KEY, GOVEE_ROOT_URL};
+use govee::{get_all_devices, ApiResponseGoveeAllDevices};
 use rocket::serde::json::Json;
 
 #[get("/devices")]
