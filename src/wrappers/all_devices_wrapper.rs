@@ -1,7 +1,6 @@
-use govee::GoveeDevice;
+use govee_api::{GoveeDevice, GoveeDeviceProperty, GoveeDataDeviceStatus};
 use serde::Serialize;
 
-use crate::services::govee_api_service::{GoveeDataDeviceStatus, GoveeDeviceProperty};
 
 #[derive(Debug, Serialize)]
 #[allow(non_snake_case)]
