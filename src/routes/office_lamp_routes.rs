@@ -1,7 +1,7 @@
+use govee_api::sent_put_request;
 use rocket::serde::json::Json;
 
 use crate::implementations::access_token::Token;
-use crate::services::govee_api_service::sent_put_request;
 use crate::services::light_setup_service::office_light_setup;
 use crate::{GOVEE_API_KEY, GOVEE_ROOT_URL};
 

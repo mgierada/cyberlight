@@ -1,18 +1,6 @@
-use serde::{Deserialize, Serialize};
+use govee_api::{PayloadBody, GoveeCommand};
 use std::env::var;
 
-#[derive(Serialize)]
-pub struct PayloadBody {
-    pub device: String,
-    pub model: String,
-    pub cmd: GoveeCommand,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct GoveeCommand {
-    pub name: String,
-    pub value: String,
-}
 
 pub fn tv_light_setup(command: &str) -> PayloadBody {
     let goove_api_device =

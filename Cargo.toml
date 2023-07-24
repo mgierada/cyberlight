@@ -15,6 +15,7 @@ lazy_static = "1.4.0"
 tokio = {version = "1.28.2", features = ["full"]}
 mockito = "1.0.2"
 cargo-tarpaulin = "0.26.1"
+govee-api = {version = "0.0.1"}
 
 [dependencies.rocket]
 version = "0.5.0-rc.1"
