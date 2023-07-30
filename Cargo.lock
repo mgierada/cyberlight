@@ -682,18 +682,14 @@ checksum = "d2fabcfbdc87f4758337ca535fb41a6d701b65693ce38287d856d1674551ec9b"
 
 [[package]]
 name = "govee-api"
-version = "0.0.1"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ad71911174effa995ea104fb988e86e7cea4402a4278f6f28308fc783674d5eb"
+checksum = "f2fbff77fd32a684f5943100029b951bf06c06c6f97739e568b096783b8d365a"
 dependencies = [
- "cargo-tarpaulin",
- "dotenv",
  "lazy_static",
- "mockito",
  "reqwest",
  "serde",
  "serde_json",
- "tokio",
 ]
 
 [[package]]
