@@ -1680,7 +1680,7 @@ dependencies = [
 
 [[package]]
 name = "rust_that_light"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "cargo-tarpaulin",
  "dotenv",
