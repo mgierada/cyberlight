@@ -706,9 +706,9 @@ checksum = "d2fabcfbdc87f4758337ca535fb41a6d701b65693ce38287d856d1674551ec9b"
 
 [[package]]
 name = "govee-api"
-version = "1.0.0"
+version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d692831e9251a8d9df48338b7585dd2a20f4012d7d5d118f233a7a14b0808118"
+checksum = "b7b114e8b795965dbf0836ff9477deabc48a6bf709601deee5aadf6067bf0997"
 dependencies = [
  "lazy_static",
  "reqwest",
