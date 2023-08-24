@@ -9,10 +9,17 @@ use rocket::serde::json::Json;
 #[get("/devices")]
 pub async fn get_all_devices_handler() -> Json<serde_json::Value> {
     let govee_client = GoveeClient::new(&GOVEE_API_KEY);
-    let response: ApiResponseGoveeDevices = govee_client.get_devices().await;
-    let raw_devices = response.data.unwrap().devices;
-    let wrapped_devices = wrap_devices(raw_devices);
-    Json(serde_json::json!({ "devices": wrapped_devices }))
+    match govee_client.get_devices().await {
+        Ok(response) => {
+            let raw_devices = response.data.unwrap().devices;
+            let wrapped_devices = wrap_devices(raw_devices);
+            Json(serde_json::json!({ "devices": wrapped_devices }))
+        }
+        Err(err) => {
+            println!("Error: {}", err);
+            Json(serde_json::json!({"error": "Failed to fetch devices"}))
+        }
+    }
 }
 
 #[get("/status")]
