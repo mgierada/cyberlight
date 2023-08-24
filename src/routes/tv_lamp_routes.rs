@@ -8,7 +8,10 @@ use rocket::serde::json::Json;
 pub async fn tv_on_handler(_token: Token) -> Json<serde_json::Value> {
     let payload = tv_light_setup("on");
     let govee_client = GoveeClient::new(&GOVEE_API_KEY);
-    govee_client.control_device(payload).await;
+    let result = govee_client.control_device(payload).await;
+    if let Err(err) = result {
+        panic!("Error occurred: {:?}", err);
+    }
     Json(serde_json::json!({"device": "tv_light", "status": "on"}))
 }
 
@@ -16,6 +19,9 @@ pub async fn tv_on_handler(_token: Token) -> Json<serde_json::Value> {
 pub async fn tv_off_handler(_token: Token) -> Json<serde_json::Value> {
     let payload = tv_light_setup("off");
     let govee_client = GoveeClient::new(&GOVEE_API_KEY);
-    govee_client.control_device(payload).await;
+    let result = govee_client.control_device(payload).await;
+    if let Err(err) = result {
+        panic!("Error occurred: {:?}", err);
+    }
     Json(serde_json::json!({"device": "tv_light", "status": "off"}))
 }
