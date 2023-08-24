@@ -9,7 +9,10 @@ use crate::GOVEE_API_KEY;
 pub async fn office_on_handler(_token: Token) -> Json<serde_json::Value> {
     let payload = office_light_setup("on");
     let govee_client = GoveeClient::new(&GOVEE_API_KEY);
-    govee_client.control_device(payload).await;
+    let result = govee_client.control_device(payload).await;
+    if let Err(err) = result {
+        panic!("Error occurred: {:?}", err);
+    }
     Json(serde_json::json!({"device": "office_light", "status": "on"}))
 }
 
@@ -17,6 +20,9 @@ pub async fn office_on_handler(_token: Token) -> Json<serde_json::Value> {
 pub async fn office_off_handler(_token: Token) -> Json<serde_json::Value> {
     let payload = office_light_setup("off");
     let govee_client = GoveeClient::new(&GOVEE_API_KEY);
-    govee_client.control_device(payload).await;
+    let result = govee_client.control_device(payload).await;
+    if let Err(err) = result {
+        panic!("Error occurred: {:?}", err);
+    }
     Json(serde_json::json!({"device": "office_light", "status": "off"}))
 }
