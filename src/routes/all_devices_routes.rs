@@ -43,9 +43,6 @@ pub async fn get_all_devices_handler(
 pub async fn get_status_for_all_devices(
 ) -> Result<Json<serde_json::Value>, Custom<Json<serde_json::Value>>> {
     let govee_client = GoveeClient::new(&GOVEE_API_KEY);
-    // let raw_devices = get_devices_handler(govee_client).await;
-    // let response: ApiResponseGoveeDevices = govee_client.get_devices().await;
-    // let raw_devices = response.data.unwrap().devices;
     match get_devices_handler(govee_client).await {
         Ok(raw_devices) => {
             let wrapped_models_and_devices = wrap_model_and_devices(raw_devices);
@@ -73,38 +70,21 @@ pub async fn get_status_for_all_devices(
         }
         Err(err) => Err(err),
     }
-
-    // let wrapped_models_and_devices = wrap_model_and_devices(raw_devices);
-    // let mut response_status: Vec<DeviceStatus> = Vec::new();
-    // for model_and_device in wrapped_models_and_devices {
-    //     let device = model_and_device.device;
-    //     let model = model_and_device.model;
-    //     let govee_client = GoveeClient::new(&GOVEE_API_KEY);
-    //     // let raw_response: ApiResponseGoveeDeviceState =
-    //     //     govee_client.get_device_state(&device, &model).await;
-    //     match govee_client.get_device_state(&device, &model).await {
-    //         Ok(response) => {
-    //             let raw_devices_status = response.data.unwrap();
-    //             let response = wrap_device_status(raw_devices_status);
-    //             response_status.push(response);
-    //         }
-    //         Err(err) => {
-    //             println!("Error: {}", err);
-    //             Json(serde_json::json!({"error": "Failed to fetch devices"}))
-    //         }
-    //     }
-    //     // let raw_devices_status = raw_response.data.unwrap();
-    //     // let response = wrap_device_status(raw_devices_status);
-    //     // response_status.push(response);
-    // }
-    // Json(serde_json::json!({ "status": response_status }))
 }
 
 #[get("/status/<device>/<model>")]
 pub async fn get_status_for_device(device: String, model: String) -> Json<serde_json::Value> {
     let govee_client = GoveeClient::new(&GOVEE_API_KEY);
-    let raw_response: ApiResponseGoveeDeviceState =
-        govee_client.get_device_state(&device, &model).await;
-    let raw_devices_status = raw_response.data.unwrap();
-    Json(serde_json::json!({ "status": raw_devices_status }))
+    match govee_client.get_device_state(&device, &model).await {
+        Ok(response) => {
+            let raw_devices_status = response.data.unwrap();
+            let response = wrap_device_status(raw_devices_status);
+            Json(serde_json::json!({ "status": response }))
+        }
+        Err(err) => {
+            println!("Error: {}", err);
+            let error_json = serde_json::json!({ "error": "Failed to fetch devices" });
+            Json(error_json)
+        }
+    }
 }
