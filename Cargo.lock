@@ -707,6 +707,8 @@ checksum = "d2fabcfbdc87f4758337ca535fb41a6d701b65693ce38287d856d1674551ec9b"
 [[package]]
 name = "govee-api"
 version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c56c57ecb28f0502063f525713471f14bf914c4c256950626e5c8901904bc809"
 dependencies = [
  "lazy_static",
  "reqwest",
@@ -1702,7 +1704,7 @@ dependencies = [
 
 [[package]]
 name = "rust_that_light"
-version = "0.3.2"
+version = "0.4.0"
 dependencies = [
  "cargo-tarpaulin",
  "dotenv",

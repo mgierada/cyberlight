@@ -2,8 +2,7 @@ use crate::wrappers::all_devices_wrapper::{
     wrap_device_status, wrap_devices, wrap_model_and_devices, DeviceStatus,
 };
 use crate::GOVEE_API_KEY;
-use govee_api::structs::govee::{ApiResponseGoveeDeviceState, GoveeDevice};
-use govee_api::GoveeClient;
+use govee_api::{structs::govee::GoveeDevice, GoveeClient};
 use rocket::http::Status;
 use rocket::response::status::Custom;
 use rocket::serde::json::Json;
@@ -51,8 +50,6 @@ pub async fn get_status_for_all_devices(
                 let device = model_and_device.device;
                 let model = model_and_device.model;
                 let govee_client = GoveeClient::new(&GOVEE_API_KEY);
-                // let raw_response: ApiResponseGoveeDeviceState =
-                //     govee_client.get_device_state(&device, &model).await;
                 match govee_client.get_device_state(&device, &model).await {
                     Ok(response) => {
                         let raw_devices_status = response.data.unwrap();
