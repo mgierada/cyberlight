@@ -22,7 +22,6 @@ features = ["json"]
 [dev-dependencies]
 mockito = "1.1.0"
 tokio = {version = "1.32.0", features = ["full"]}
-cargo-tarpaulin = "0.26.1"
 
 [[bin]]
 name = "rust_that_light"
