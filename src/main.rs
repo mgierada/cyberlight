@@ -18,6 +18,7 @@ pub mod routes;
 pub mod services;
 pub mod tests;
 pub mod wrappers;
+pub mod constants;
 
 lazy_static! {
     pub static ref GOVEE_API_KEY: String =
