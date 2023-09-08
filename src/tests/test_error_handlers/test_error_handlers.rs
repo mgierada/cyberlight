@@ -8,7 +8,7 @@ mod tests {
     #[test]
     fn test_unauthorized_handler() {
         let client = Client::untracked(rocket()).expect("valid rocket instance");
-        let response = client.get("/office/on").dispatch();
+        let response = client.get("/office/corner/on").dispatch();
         assert_eq!(response.status(), Status::Unauthorized);
         let body = response.into_string().expect("response into string");
         let error: AuthError = serde_json::from_str(&body).expect("deserialize error");
@@ -24,7 +24,7 @@ mod tests {
         let error: NotFoundError = serde_json::from_str(&body).expect("deserialize error");
         assert_eq!(error.error, "Page not found");
     }
-    
+
     #[test]
     fn test_server_error_handler() {
         let client = Client::untracked(crate::rocket()).expect("valid rocket instance");

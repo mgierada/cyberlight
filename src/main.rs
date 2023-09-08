@@ -8,10 +8,14 @@ use routes::all_devices_routes::{
 };
 use routes::healthcheck_routes::healthcheck_handler;
 use routes::home_routes::home;
-use routes::office_lamp_routes::{office_off_handler, office_on_handler};
+use routes::office_routes::{
+    office_corner_off_handler, office_corner_on_handler, office_table_off_handler,
+    office_table_on_handler,
+};
 use routes::tv_lamp_routes::{tv_off_handler, tv_on_handler};
 use std::env::var;
 
+pub mod constants;
 pub mod error_handlers;
 pub mod implementations;
 pub mod routes;
@@ -38,7 +42,15 @@ fn rocket() -> _ {
     rocket::build()
         .register("/", catchers![ununauthorized, not_found, server_error])
         .mount("/tv", routes![tv_on_handler, tv_off_handler])
-        .mount("/office", routes![office_on_handler, office_off_handler])
+        .mount(
+            "/office",
+            routes![
+                office_corner_on_handler,
+                office_corner_off_handler,
+                office_table_on_handler,
+                office_table_off_handler
+            ],
+        )
         .mount(
             "/",
             routes![
