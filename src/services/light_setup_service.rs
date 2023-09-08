@@ -1,4 +1,4 @@
-use std::env::{var, self};
+use std::env::{self, var};
 
 use govee_api::structs::govee::{GoveeCommand, PayloadBody};
 
@@ -22,10 +22,10 @@ pub fn tv_light_setup(command: &str) -> PayloadBody {
 impl OfficeDevices {
     // Associated functions to create enum variants
     pub fn corner_led() -> Self {
-        let office_corner_light_id = env::var("OFFICE_CORNER_LIGHT_ID")
-            .expect("OFFICE_CORNER_LIGHT_ID must be set");
-        let office_corner_light_model = env::var("OFFICE_CORNER_LIGHT_MODEL")
-            .expect("OFFICE_CORNER_LIGHT_MODEL must be set");
+        let office_corner_light_id =
+            env::var("OFFICE_CORNER_LIGHT_ID").expect("OFFICE_CORNER_LIGHT_ID must be set");
+        let office_corner_light_model =
+            env::var("OFFICE_CORNER_LIGHT_MODEL").expect("OFFICE_CORNER_LIGHT_MODEL must be set");
 
         let corner_led = Device {
             device_id: office_corner_light_id,
@@ -36,10 +36,10 @@ impl OfficeDevices {
     }
 
     pub fn table_led() -> Self {
-        let office_table_led_id = env::var("OFFICE_TABLE_LED_ID")
-            .expect("OFFICE_TABLE_LED_ID must be set");
-        let office_table_led_model = env::var("OFFICE_TABLE_LED_MODEL")
-            .expect("OFFICE_TABLE_LED_MODEL must be set");
+        let office_table_led_id =
+            env::var("OFFICE_TABLE_LED_ID").expect("OFFICE_TABLE_LED_ID must be set");
+        let office_table_led_model =
+            env::var("OFFICE_TABLE_LED_MODEL").expect("OFFICE_TABLE_LED_MODEL must be set");
 
         let table_led = Device {
             device_id: office_table_led_id,
