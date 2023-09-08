@@ -47,6 +47,20 @@ impl OfficeDevices {
 
         OfficeDevices::TableLED(table_led)
     }
+
+    pub fn window_led() -> Self {
+        let office_window_led_id =
+            env::var("OFFICE_WINDOW_LED_ID").expect("OFFICE_WINDOW_LED_ID must be set");
+        let office_window_led_model =
+            env::var("OFFICE_WINDOW_LED_MODEL").expect("OFFICE_WINDOW_LED_MODEL must be set");
+
+        let window_led = Device {
+            device_id: office_window_led_id,
+            model: office_window_led_model,
+        };
+
+        OfficeDevices::WindowLED(window_led)
+    }
 }
 
 pub fn office_light_setup(device: &OfficeDevices, command: &str) -> PayloadBody {
@@ -63,6 +77,11 @@ pub fn office_light_setup(device: &OfficeDevices, command: &str) -> PayloadBody 
         OfficeDevices::TableLED(table_led) => PayloadBody {
             device: table_led.device_id.clone(),
             model: table_led.model.clone(),
+            cmd: command,
+        },
+        OfficeDevices::WindowLED(window_led) => PayloadBody {
+            device: window_led.device_id.clone(),
+            model: window_led.model.clone(),
             cmd: command,
         },
     }
