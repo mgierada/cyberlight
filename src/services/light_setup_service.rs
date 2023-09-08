@@ -20,7 +20,6 @@ pub fn tv_light_setup(command: &str) -> PayloadBody {
 }
 
 impl OfficeDevices {
-    // Associated functions to create enum variants
     pub fn corner_led() -> Self {
         let office_corner_light_id =
             env::var("OFFICE_CORNER_LIGHT_ID").expect("OFFICE_CORNER_LIGHT_ID must be set");

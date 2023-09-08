@@ -24,7 +24,7 @@ mod tests {
         let error: NotFoundError = serde_json::from_str(&body).expect("deserialize error");
         assert_eq!(error.error, "Page not found");
     }
-    
+
     #[test]
     fn test_server_error_handler() {
         let client = Client::untracked(crate::rocket()).expect("valid rocket instance");
