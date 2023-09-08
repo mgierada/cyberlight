@@ -1,4 +1,4 @@
-use std::env::var;
+use std::env::{var, self};
 
 use govee_api::structs::govee::{GoveeCommand, PayloadBody};
 
@@ -19,29 +19,51 @@ pub fn tv_light_setup(command: &str) -> PayloadBody {
     }
 }
 
-pub fn office_light_setup(device: &OfficeDevices, command: &str) -> PayloadBody {
-    let office_corner_light_id =
-        var("OFFICE_CORNER_LIGHT_ID").expect("OFFICE_CORNER_LIGHT_ID must be set");
-    let office_corner_light_model =
-        var("OFFICE_CORNER_LIGHT_MODEL").expect("OFFICE_CORNER_LIGHT_MODEL must be set");
-    let office_table_led_id = var("OFFICE_TABLE_LED_ID").expect("OFFICE_TABLE_LED_ID must be set");
-    let office_table_led_model =
-        var("OFFICE_TABLE_LED_MODEL").expect("OFFICE_TABLE_LED_MODEL must be set");
+impl OfficeDevices {
+    // Associated functions to create enum variants
+    pub fn corner_led() -> Self {
+        let office_corner_light_id = env::var("OFFICE_CORNER_LIGHT_ID")
+            .expect("OFFICE_CORNER_LIGHT_ID must be set");
+        let office_corner_light_model = env::var("OFFICE_CORNER_LIGHT_MODEL")
+            .expect("OFFICE_CORNER_LIGHT_MODEL must be set");
 
+        let corner_led = Device {
+            device_id: office_corner_light_id,
+            model: office_corner_light_model,
+        };
+
+        OfficeDevices::CornerLED(corner_led)
+    }
+
+    pub fn table_led() -> Self {
+        let office_table_led_id = env::var("OFFICE_TABLE_LED_ID")
+            .expect("OFFICE_TABLE_LED_ID must be set");
+        let office_table_led_model = env::var("OFFICE_TABLE_LED_MODEL")
+            .expect("OFFICE_TABLE_LED_MODEL must be set");
+
+        let table_led = Device {
+            device_id: office_table_led_id,
+            model: office_table_led_model,
+        };
+
+        OfficeDevices::TableLED(table_led)
+    }
+}
+
+pub fn office_light_setup(device: &OfficeDevices, command: &str) -> PayloadBody {
     let command = GoveeCommand {
         name: "turn".to_string(),
         value: command.to_string(),
     };
-
     match device {
-        OfficeDevices::CornerLED(_) => PayloadBody {
-            device: office_corner_light_id,
-            model: office_corner_light_model,
+        OfficeDevices::CornerLED(corner_led) => PayloadBody {
+            device: corner_led.device_id.clone(),
+            model: corner_led.model.clone(),
             cmd: command,
         },
-        OfficeDevices::TableLED(_) => PayloadBody {
-            device: office_table_led_id,
-            model: office_table_led_model,
+        OfficeDevices::TableLED(table_led) => PayloadBody {
+            device: table_led.device_id.clone(),
+            model: table_led.model.clone(),
             cmd: command,
         },
     }
