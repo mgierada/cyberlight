@@ -6,6 +6,28 @@ use crate::implementations::access_token::Token;
 use crate::services::light_setup_service::office_light_setup;
 use crate::GOVEE_API_KEY;
 
+#[get("/office/on")]
+pub async fn office_on_handler(_token: Token) -> Json<serde_json::Value> {
+
+    // Turn on all lights in the office
+    let corner_led = OfficeDevices::corner_led();
+    let table_led = OfficeDevices::table_led();
+    let window_led = OfficeDevices::window_led();
+    let govee_client = GoveeClient::new(&GOVEE_API_KEY);
+    let payload = office_light_setup(&corner_led, "on");
+    
+    // 
+    // let govee_client = GoveeClient::new(&GOVEE_API_KEY);
+    // let corner_led = OfficeDevices::corner_led();
+    // let payload = office_light_setup(&corner_led, "on");
+    // let govee_client = GoveeClient::new(&GOVEE_API_KEY);
+    // let result = govee_client.control_device(payload).await;
+    // if let Err(err) = result {
+    //     panic!("Error occurred: {:?}", err);
+    // }
+    // Json(serde_json::json!({"device": "corner_led", "status": "on"}))
+}
+
 #[get("/corner/on")]
 pub async fn office_corner_on_handler(_token: Token) -> Json<serde_json::Value> {
     let corner_led = OfficeDevices::corner_led();
