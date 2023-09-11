@@ -8,7 +8,7 @@ use crate::GOVEE_API_KEY;
 
 #[get("/on")]
 pub async fn office_on_handler(_token: Token) -> Json<serde_json::Value> {
-    // TODO Refactor this ungly implementation when bulk control is available
+    // TODO Refactor this ugly implementation when bulk control is available
     let corner_led = OfficeDevices::corner_led();
     let table_led = OfficeDevices::table_led();
     let window_led = OfficeDevices::window_led();
@@ -33,7 +33,7 @@ pub async fn office_on_handler(_token: Token) -> Json<serde_json::Value> {
 
 #[get("/off")]
 pub async fn office_off_handler(_token: Token) -> Json<serde_json::Value> {
-    // TODO Refactor this ungly implementatioff when bulk control is available
+    // TODO Refactor this ugly implementation when bulk control is available
     let corner_led = OfficeDevices::corner_led();
     let table_led = OfficeDevices::table_led();
     let window_led = OfficeDevices::window_led();
