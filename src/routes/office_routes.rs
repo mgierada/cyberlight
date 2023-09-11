@@ -56,6 +56,30 @@ pub async fn office_off_handler(_token: Token) -> Json<serde_json::Value> {
     Json(serde_json::json!({"device": "all", "status": "on"}))
 }
 
+#[get("/board/on")]
+pub async fn office_board_on_handler(_token: Token) -> Json<serde_json::Value> {
+    let board_led = OfficeDevices::corner_led();
+    let payload = office_light_setup(&board_led, "on");
+    let govee_client = GoveeClient::new(&GOVEE_API_KEY);
+    let result = govee_client.control_device(payload).await;
+    if let Err(err) = result {
+        panic!("Error occurred: {:?}", err);
+    }
+    Json(serde_json::json!({"device": "board_led", "status": "on"}))
+}
+
+#[get("/board/off")]
+pub async fn office_board_off_on_handler(_token: Token) -> Json<serde_json::Value> {
+    let board_led = OfficeDevices::corner_led();
+    let payload = office_light_setup(&board_led, "off");
+    let govee_client = GoveeClient::new(&GOVEE_API_KEY);
+    let result = govee_client.control_device(payload).await;
+    if let Err(err) = result {
+        panic!("Error occurred: {:?}", err);
+    }
+    Json(serde_json::json!({"device": "board_led", "status": "off"}))
+}
+
 #[get("/corner/on")]
 pub async fn office_corner_on_handler(_token: Token) -> Json<serde_json::Value> {
     let corner_led = OfficeDevices::corner_led();
