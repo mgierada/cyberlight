@@ -1232,7 +1232,7 @@ dependencies = [
 
 [[package]]
 name = "rust_that_light"
-version = "0.6.0"
+version = "0.7.0"
 dependencies = [
  "dotenv",
  "govee-api",
