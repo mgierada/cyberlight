@@ -1,4 +1,5 @@
 use govee_api::GoveeClient;
+use govee_api::structs::govee::PayloadBody;
 use rocket::serde::json::Json;
 
 use crate::constants::enums::OfficeDevices;
@@ -7,7 +8,7 @@ use crate::services::light_setup_service::office_light_setup;
 use crate::GOVEE_API_KEY;
 
 #[get("/on")]
-pub async fn office_off_handler(_token: Token) -> Json<serde_json::Value> {
+pub async fn office_on_handler(_token: Token) -> Json<serde_json::Value> {
     let devices = [
         OfficeDevices::corner_led(),
         OfficeDevices::table_led(),
