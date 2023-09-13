@@ -7,25 +7,20 @@ use crate::services::light_setup_service::office_light_setup;
 use crate::GOVEE_API_KEY;
 
 #[get("/on")]
-pub async fn office_on_handler(_token: Token) -> Json<serde_json::Value> {
-    let corner_led = OfficeDevices::corner_led();
-    let table_led = OfficeDevices::table_led();
-    let window_led = OfficeDevices::window_led();
-    let board_led = OfficeDevices::board_led();
-    let payload_corner = office_light_setup(&corner_led, "on");
-    let payload_table = office_light_setup(&table_led, "on");
-    let payload_window = office_light_setup(&window_led, "on");
-    let payload_board = office_light_setup(&board_led, "on");
+pub async fn office_off_handler(_token: Token) -> Json<serde_json::Value> {
+    let devices = [
+        OfficeDevices::corner_led(),
+        OfficeDevices::table_led(),
+        OfficeDevices::window_led(),
+        OfficeDevices::board_led(),
+    ];
+    let payloads: Vec<PayloadBody> = devices
+        .iter()
+        .map(|device| office_light_setup(device, "on"))
+        .collect();
+
     let govee_client = GoveeClient::new(&GOVEE_API_KEY);
-    let resuts = govee_client
-        .bulk_control_devices(vec![
-            payload_corner,
-            payload_table,
-            payload_window,
-            payload_board,
-        ])
-        .await;
-    if let Err(err) = resuts {
+    if let Err(err) = govee_client.bulk_control_devices(payloads.clone()).await {
         panic!("Error occurred: {:?}", err);
     }
     Json(serde_json::json!({"device": "all", "status": "on"}))
@@ -33,24 +28,19 @@ pub async fn office_on_handler(_token: Token) -> Json<serde_json::Value> {
 
 #[get("/off")]
 pub async fn office_off_handler(_token: Token) -> Json<serde_json::Value> {
-    let corner_led = OfficeDevices::corner_led();
-    let table_led = OfficeDevices::table_led();
-    let window_led = OfficeDevices::window_led();
-    let board_led = OfficeDevices::board_led();
-    let payload_corner = office_light_setup(&corner_led, "off");
-    let payload_table = office_light_setup(&table_led, "off");
-    let payload_window = office_light_setup(&window_led, "off");
-    let payload_board = office_light_setup(&board_led, "off");
+    let devices = [
+        OfficeDevices::corner_led(),
+        OfficeDevices::table_led(),
+        OfficeDevices::window_led(),
+        OfficeDevices::board_led(),
+    ];
+    let payloads: Vec<PayloadBody> = devices
+        .iter()
+        .map(|device| office_light_setup(device, "off"))
+        .collect();
+
     let govee_client = GoveeClient::new(&GOVEE_API_KEY);
-    let resuts = govee_client
-        .bulk_control_devices(vec![
-            payload_corner,
-            payload_table,
-            payload_window,
-            payload_board,
-        ])
-        .await;
-    if let Err(err) = resuts {
+    if let Err(err) = govee_client.bulk_control_devices(payloads.clone()).await {
         panic!("Error occurred: {:?}", err);
     }
     Json(serde_json::json!({"device": "all", "status": "on"}))
