@@ -5,7 +5,7 @@ use crate::GOVEE_API_KEY;
 use govee_api::GoveeClient;
 use rocket::serde::json::Json;
 
-#[get("/standing/right/on")]
+#[get("/right/on")]
 pub async fn standing_right_on_handler(_token: Token) -> Json<serde_json::Value> {
     let standing_right_led = OfficeDevices::standing_right_led();
     let payload = office_light_setup(&standing_right_led, "on");
@@ -17,7 +17,7 @@ pub async fn standing_right_on_handler(_token: Token) -> Json<serde_json::Value>
     Json(serde_json::json!({"device": "standing_right_led", "status": "on"}))
 }
 
-#[get("/standing/right/off")]
+#[get("/right/off")]
 pub async fn standing_right_off_handler(_token: Token) -> Json<serde_json::Value> {
     let standing_right_led = OfficeDevices::standing_right_led();
     let payload = office_light_setup(&standing_right_led, "off");
@@ -29,7 +29,7 @@ pub async fn standing_right_off_handler(_token: Token) -> Json<serde_json::Value
     Json(serde_json::json!({"device": "standing_right_led", "status": "off"}))
 }
 
-#[get("/standing/left/on")]
+#[get("/left/on")]
 pub async fn standing_left_on_handler(_token: Token) -> Json<serde_json::Value> {
     let standing_left_led = OfficeDevices::standing_left_led();
     let payload = office_light_setup(&standing_left_led, "on");
@@ -41,7 +41,7 @@ pub async fn standing_left_on_handler(_token: Token) -> Json<serde_json::Value> 
     Json(serde_json::json!({"device": "standing_left_led", "status": "on"}))
 }
 
-#[get("/standing/left/off")]
+#[get("/left/off")]
 pub async fn standing_left_off_handler(_token: Token) -> Json<serde_json::Value> {
     let standing_left_led = OfficeDevices::standing_left_led();
     let payload = office_light_setup(&standing_left_led, "off");

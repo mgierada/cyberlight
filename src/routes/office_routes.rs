@@ -10,8 +10,8 @@ use crate::GOVEE_API_KEY;
 #[get("/on")]
 pub async fn office_on_handler(_token: Token) -> Json<serde_json::Value> {
     let devices = [
-        OfficeDevices::corner_led(),
-        OfficeDevices::table_led(),
+        OfficeDevices::standing_right_led(),
+        OfficeDevices::standing_right_led(),
         OfficeDevices::window_led(),
         OfficeDevices::board_led(),
     ];
@@ -30,7 +30,8 @@ pub async fn office_on_handler(_token: Token) -> Json<serde_json::Value> {
 #[get("/off")]
 pub async fn office_off_handler(_token: Token) -> Json<serde_json::Value> {
     let devices = [
-        OfficeDevices::corner_led(),
+        OfficeDevices::standing_right_led(),
+        OfficeDevices::standing_right_led(),
         OfficeDevices::table_led(),
         OfficeDevices::window_led(),
         OfficeDevices::board_led(),
@@ -71,29 +72,6 @@ pub async fn office_board_off_on_handler(_token: Token) -> Json<serde_json::Valu
     Json(serde_json::json!({"device": "board_led", "status": "off"}))
 }
 
-#[get("/corner/on")]
-pub async fn office_corner_on_handler(_token: Token) -> Json<serde_json::Value> {
-    let corner_led = OfficeDevices::corner_led();
-    let payload = office_light_setup(&corner_led, "on");
-    let govee_client = GoveeClient::new(&GOVEE_API_KEY);
-    let result = govee_client.control_device(payload).await;
-    if let Err(err) = result {
-        panic!("Error occurred: {:?}", err);
-    }
-    Json(serde_json::json!({"device": "corner_led", "status": "on"}))
-}
-
-#[get("/corner/off")]
-pub async fn office_corner_off_handler(_token: Token) -> Json<serde_json::Value> {
-    let corner_led = OfficeDevices::corner_led();
-    let payload = office_light_setup(&corner_led, "off");
-    let govee_client = GoveeClient::new(&GOVEE_API_KEY);
-    let result = govee_client.control_device(payload).await;
-    if let Err(err) = result {
-        panic!("Error occurred: {:?}", err);
-    }
-    Json(serde_json::json!({"device": "corner_led", "status": "off"}))
-}
 
 #[get("/table/on")]
 pub async fn office_table_on_handler(_token: Token) -> Json<serde_json::Value> {

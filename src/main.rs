@@ -9,11 +9,14 @@ use routes::all_devices_routes::{
 use routes::healthcheck_routes::healthcheck_handler;
 use routes::home_routes::home;
 use routes::office_routes::{
-    office_corner_off_handler, office_corner_on_handler, office_off_handler, office_on_handler,
+    office_board_off_on_handler, office_board_on_handler, office_off_handler, office_on_handler,
     office_table_off_handler, office_table_on_handler, office_window_off_handler,
-    office_window_on_handler, office_board_on_handler, office_board_off_on_handler,
+    office_window_on_handler,
 };
-use routes::tv_lamp_routes::{tv_off_handler, tv_on_handler};
+use routes::standing_routes::{
+    standing_left_off_handler, standing_left_on_handler, standing_right_off_handler,
+    standing_right_on_handler,
+};
 use std::env::var;
 
 pub mod constants;
@@ -42,14 +45,20 @@ fn rocket() -> _ {
     dotenv().ok();
     rocket::build()
         .register("/", catchers![ununauthorized, not_found, server_error])
-        .mount("/tv", routes![tv_on_handler, tv_off_handler])
+        .mount(
+            "/standing",
+            routes![
+                standing_left_on_handler,
+                standing_left_off_handler,
+                standing_right_on_handler,
+                standing_right_off_handler
+            ],
+        )
         .mount(
             "/office",
             routes![
                 office_on_handler,
                 office_off_handler,
-                office_corner_on_handler,
-                office_corner_off_handler,
                 office_table_on_handler,
                 office_table_off_handler,
                 office_window_on_handler,
