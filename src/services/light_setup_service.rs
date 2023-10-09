@@ -32,16 +32,28 @@ impl OfficeDevices {
         OfficeDevices::BoardLED(board_led)
     }
 
-    pub fn corner_led() -> Self {
-        let office_corner_light_id =
-            env::var("OFFICE_CORNER_LIGHT_ID").expect("OFFICE_CORNER_LIGHT_ID must be set");
-        let office_corner_light_model =
-            env::var("OFFICE_CORNER_LIGHT_MODEL").expect("OFFICE_CORNER_LIGHT_MODEL must be set");
+    pub fn standing_right_led() -> Self {
+        let office_standing_right_led_id=
+            env::var("OFFICE_STANDING_RIGHT_LIGHT_ID").expect("OFFICE_STANDING_RIGHT_LIGHT_ID must be set");
+        let office_standing_right_led_model =
+            env::var("OFFICE_STANDING_RIGHT_MODEL").expect("OFFICE_STANDING_RIGHT_MODEL must be set");
         let corner_led = Device {
-            device_id: office_corner_light_id,
-            model: office_corner_light_model,
+            device_id: office_standing_right_led_id,
+            model: office_standing_right_led_model,
         };
-        OfficeDevices::CornerLED(corner_led)
+        OfficeDevices::StandingRightLED(corner_led)
+    }
+    
+    pub fn standing_left_led() -> Self {
+        let office_standing_left_led_id=
+            env::var("OFFICE_STANDING_LEFT_LIGHT_ID").expect("OFFICE_STANDING_LEFT_LIGHT_ID must be set");
+        let office_standing_left_led_model =
+            env::var("OFFICE_STANDING_LEFT_MODEL").expect("OFFICE_STANDING_LEFT_MODEL must be set");
+        let corner_led = Device {
+            device_id: office_standing_left_led_id,
+            model: office_standing_left_led_model,
+        };
+        OfficeDevices::StandingLeftLED(corner_led)
     }
 
     pub fn table_led() -> Self {
