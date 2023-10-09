@@ -32,16 +32,28 @@ impl OfficeDevices {
         OfficeDevices::BoardLED(board_led)
     }
 
-    pub fn corner_led() -> Self {
-        let office_corner_light_id =
-            env::var("OFFICE_CORNER_LIGHT_ID").expect("OFFICE_CORNER_LIGHT_ID must be set");
-        let office_corner_light_model =
-            env::var("OFFICE_CORNER_LIGHT_MODEL").expect("OFFICE_CORNER_LIGHT_MODEL must be set");
+    pub fn standing_right_led() -> Self {
+        let office_standing_right_led_id = env::var("OFFICE_STANDING_RIGHT_LED_ID")
+            .expect("OFFICE_STANDING_RIGHT_LED_ID must be set");
+        let office_standing_right_led_model = env::var("OFFICE_STANDING_RIGHT_LED_MODEL")
+            .expect("OFFICE_STANDING_RIGHT_LED_MODEL must be set");
         let corner_led = Device {
-            device_id: office_corner_light_id,
-            model: office_corner_light_model,
+            device_id: office_standing_right_led_id,
+            model: office_standing_right_led_model,
         };
-        OfficeDevices::CornerLED(corner_led)
+        OfficeDevices::StandingRightLED(corner_led)
+    }
+
+    pub fn standing_left_led() -> Self {
+        let office_standing_left_led_id = env::var("OFFICE_STANDING_LEFT_LED_ID")
+            .expect("OFFICE_STANDING_LEFT_LED_ID must be set");
+        let office_standing_left_led_model =
+            env::var("OFFICE_STANDING_LEFT_LED_MODEL").expect("OFFICE_STANDING_LEFT_LED_MODEL must be set");
+        let corner_led = Device {
+            device_id: office_standing_left_led_id,
+            model: office_standing_left_led_model,
+        };
+        OfficeDevices::StandingLeftLED(corner_led)
     }
 
     pub fn table_led() -> Self {
@@ -80,11 +92,6 @@ pub fn office_light_setup(device: &OfficeDevices, command: &str) -> PayloadBody 
             model: board_led.model.clone(),
             cmd: command,
         },
-        OfficeDevices::CornerLED(corner_led) => PayloadBody {
-            device: corner_led.device_id.clone(),
-            model: corner_led.model.clone(),
-            cmd: command,
-        },
         OfficeDevices::TableLED(table_led) => PayloadBody {
             device: table_led.device_id.clone(),
             model: table_led.model.clone(),
@@ -93,6 +100,16 @@ pub fn office_light_setup(device: &OfficeDevices, command: &str) -> PayloadBody 
         OfficeDevices::WindowLED(window_led) => PayloadBody {
             device: window_led.device_id.clone(),
             model: window_led.model.clone(),
+            cmd: command,
+        },
+        OfficeDevices::StandingRightLED(standing_right_led) => PayloadBody {
+            device: standing_right_led.device_id.clone(),
+            model: standing_right_led.model.clone(),
+            cmd: command,
+        },
+        OfficeDevices::StandingLeftLED(standing_left_led) => PayloadBody {
+            device: standing_left_led.device_id.clone(),
+            model: standing_left_led.model.clone(),
             cmd: command,
         },
     }

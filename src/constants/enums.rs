@@ -5,7 +5,8 @@ pub struct Device {
 
 pub enum OfficeDevices {
     TableLED(Device),
-    CornerLED(Device),
+    StandingRightLED(Device),
+    StandingLeftLED(Device),
     WindowLED(Device),
     BoardLED(Device),
 }
