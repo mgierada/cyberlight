@@ -8,7 +8,7 @@ mod tests {
     #[test]
     fn test_unauthorized_handler() {
         let client = Client::untracked(rocket()).expect("valid rocket instance");
-        let response = client.get("/office/corner/on").dispatch();
+        let response = client.get("/standing/right/on").dispatch();
         assert_eq!(response.status(), Status::Unauthorized);
         let body = response.into_string().expect("response into string");
         let error: AuthError = serde_json::from_str(&body).expect("deserialize error");
