@@ -15,7 +15,7 @@ use routes::office_routes::{
 };
 use routes::standing_routes::{
     standing_left_off_handler, standing_left_on_handler, standing_right_off_handler,
-    standing_right_on_handler,
+    standing_right_on_handler, standing_on_handler, standing_off_handler,
 };
 use std::env::var;
 
@@ -48,6 +48,8 @@ fn rocket() -> _ {
         .mount(
             "/standing",
             routes![
+                standing_on_handler,
+                standing_off_handler,
                 standing_left_on_handler,
                 standing_left_off_handler,
                 standing_right_on_handler,

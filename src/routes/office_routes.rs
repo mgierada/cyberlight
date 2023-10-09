@@ -10,8 +10,9 @@ use crate::GOVEE_API_KEY;
 #[get("/on")]
 pub async fn office_on_handler(_token: Token) -> Json<serde_json::Value> {
     let devices = [
+        OfficeDevices::standing_left_led(),
         OfficeDevices::standing_right_led(),
-        OfficeDevices::standing_right_led(),
+        OfficeDevices::table_led(),
         OfficeDevices::window_led(),
         OfficeDevices::board_led(),
     ];
@@ -30,7 +31,7 @@ pub async fn office_on_handler(_token: Token) -> Json<serde_json::Value> {
 #[get("/off")]
 pub async fn office_off_handler(_token: Token) -> Json<serde_json::Value> {
     let devices = [
-        OfficeDevices::standing_right_led(),
+        OfficeDevices::standing_left_led(),
         OfficeDevices::standing_right_led(),
         OfficeDevices::table_led(),
         OfficeDevices::window_led(),
