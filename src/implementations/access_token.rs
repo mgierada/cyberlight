@@ -16,7 +16,7 @@ impl<'r> FromRequest<'r> for Token {
             if auth_token == ACCESS_TOKEN.to_string() {
                 Outcome::Success(Token(auth_token.to_string()))
             } else {
-                Outcome::Failure((
+                Outcome::Error((
                     Status::Unauthorized,
                     AuthError {
                         error: "Invalid Authorization token".to_string(),
@@ -24,7 +24,7 @@ impl<'r> FromRequest<'r> for Token {
                 ))
             }
         } else {
-            Outcome::Failure((
+            Outcome::Error((
                 Status::Unauthorized,
                 AuthError {
                     error: "Missing Authorization header".to_string(),
