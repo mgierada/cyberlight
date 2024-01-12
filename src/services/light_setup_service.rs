@@ -79,6 +79,19 @@ impl OfficeDevices {
         };
         OfficeDevices::WindowLED(window_led)
     }
+    
+    pub fn humidifier() -> Self {
+        let office_humidifier_id=
+            env::var("OFFICE_HUMIDIFIER_ID").expect("OFFICE_HUMIDIFIER_ID must be set");
+        let office_humidifier_model =
+            env::var("OFFICE_HUMIDIFIER_MODEL").expect("OFFICE_HUMIDIFIER_MODEL must be set");
+        let humidifier = Device {
+            device_id: office_humidifier_id,
+            model: office_humidifier_model,
+        };
+        OfficeDevices::WindowLED(humidifier)
+    }
+    
 }
 
 pub fn office_setup(device: &OfficeDevices, command: &str) -> PayloadBody {
@@ -110,6 +123,11 @@ pub fn office_setup(device: &OfficeDevices, command: &str) -> PayloadBody {
         OfficeDevices::StandingLeftLED(standing_left_led) => PayloadBody {
             device: standing_left_led.device_id.clone(),
             model: standing_left_led.model.clone(),
+            cmd: command,
+        },
+        OfficeDevices::Humidifier(humidifier) => PayloadBody {
+            device: humidifier.device_id.clone(),
+            model: humidifier.model.clone(),
             cmd: command,
         },
     }
