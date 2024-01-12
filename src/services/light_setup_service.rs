@@ -5,6 +5,7 @@ use govee_api::structs::govee::{GoveeCommand, PayloadBody};
 use crate::constants::enums::{Device, OfficeDevices};
 
 pub fn tv_light_setup(command: &str) -> PayloadBody {
+    // TODO: Do I need this?
     let goove_api_device =
         var("GOVEE_DEVICE_ID_TV_LIGHT").expect("GOVEE_DEVICE_ID_TV_LIGHT must be set");
     let goove_model = var("GOVEE_MODEL_TV_LIGHT").expect("GOVEE_MODEL_TV_LIGHT must be set");
@@ -79,9 +80,22 @@ impl OfficeDevices {
         };
         OfficeDevices::WindowLED(window_led)
     }
+    
+    pub fn humidifier() -> Self {
+        let office_humidifier_id=
+            env::var("OFFICE_HUMIDIFIER_ID").expect("OFFICE_HUMIDIFIER_ID must be set");
+        let office_humidifier_model =
+            env::var("OFFICE_HUMIDIFIER_MODEL").expect("OFFICE_HUMIDIFIER_MODEL must be set");
+        let humidifier = Device {
+            device_id: office_humidifier_id,
+            model: office_humidifier_model,
+        };
+        OfficeDevices::WindowLED(humidifier)
+    }
+    
 }
 
-pub fn office_light_setup(device: &OfficeDevices, command: &str) -> PayloadBody {
+pub fn office_setup(device: &OfficeDevices, command: &str) -> PayloadBody {
     let command = GoveeCommand {
         name: "turn".to_string(),
         value: command.to_string(),
@@ -110,6 +124,11 @@ pub fn office_light_setup(device: &OfficeDevices, command: &str) -> PayloadBody 
         OfficeDevices::StandingLeftLED(standing_left_led) => PayloadBody {
             device: standing_left_led.device_id.clone(),
             model: standing_left_led.model.clone(),
+            cmd: command,
+        },
+        OfficeDevices::Humidifier(humidifier) => PayloadBody {
+            device: humidifier.device_id.clone(),
+            model: humidifier.model.clone(),
             cmd: command,
         },
     }

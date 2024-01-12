@@ -9,4 +9,5 @@ pub enum OfficeDevices {
     StandingLeftLED(Device),
     WindowLED(Device),
     BoardLED(Device),
+    Humidifier(Device),
 }
