@@ -27,7 +27,7 @@ pub async fn office_on_handler(_token: Token) -> Json<serde_json::Value> {
     }
     // appliences need to be added manually
     let humidifier = OfficeDevices::humidifier();
-    let payload = office_setup(&humidifier, "off");
+    let payload = office_setup(&humidifier, "on");
     let result = govee_client.control_appliance(payload).await;
     if let Err(err) = result {
         panic!("Error occurred: {:?}", err);
@@ -59,7 +59,7 @@ pub async fn office_off_handler(_token: Token) -> Json<serde_json::Value> {
     if let Err(err) = result {
         panic!("Error occurred: {:?}", err);
     }
-    Json(serde_json::json!({"device": "all", "status": "on"}))
+    Json(serde_json::json!({"device": "all", "status": "off"}))
 }
 
 #[get("/board/on")]
