@@ -25,6 +25,13 @@ pub async fn office_on_handler(_token: Token) -> Json<serde_json::Value> {
     if let Err(err) = govee_client.bulk_control_devices(payloads.clone()).await {
         panic!("Error occurred: {:?}", err);
     }
+    // appliences need to be added manually
+    let humidifier = OfficeDevices::humidifier();
+    let payload = office_setup(&humidifier, "off");
+    let result = govee_client.control_appliance(payload).await;
+    if let Err(err) = result {
+        panic!("Error occurred: {:?}", err);
+    }
     Json(serde_json::json!({"device": "all", "status": "on"}))
 }
 
@@ -44,6 +51,12 @@ pub async fn office_off_handler(_token: Token) -> Json<serde_json::Value> {
 
     let govee_client = GoveeClient::new(&GOVEE_API_KEY);
     if let Err(err) = govee_client.bulk_control_devices(payloads.clone()).await {
+        panic!("Error occurred: {:?}", err);
+    }
+    let humidifier = OfficeDevices::humidifier();
+    let payload = office_setup(&humidifier, "off");
+    let result = govee_client.control_appliance(payload).await;
+    if let Err(err) = result {
         panic!("Error occurred: {:?}", err);
     }
     Json(serde_json::json!({"device": "all", "status": "on"}))
