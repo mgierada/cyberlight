@@ -81,7 +81,7 @@ impl OfficeDevices {
     }
 }
 
-pub fn office_light_setup(device: &OfficeDevices, command: &str) -> PayloadBody {
+pub fn office_setup(device: &OfficeDevices, command: &str) -> PayloadBody {
     let command = GoveeCommand {
         name: "turn".to_string(),
         value: command.to_string(),
