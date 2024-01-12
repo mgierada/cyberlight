@@ -121,3 +121,28 @@ pub async fn office_window_off_handler(_token: Token) -> Json<serde_json::Value>
     }
     Json(serde_json::json!({"device": "window_led", "status": "off"}))
 }
+
+
+#[get("/humidifier/on")]
+pub async fn office_humidifier_on_handler(_token: Token) -> Json<serde_json::Value> {
+    let humidifier = OfficeDevices::humidifier();
+    let payload = office_setup(&humidifier, "on");
+    let govee_client = GoveeClient::new(&GOVEE_API_KEY);
+    let result = govee_client.control_appliance(payload).await;
+    if let Err(err) = result {
+        panic!("Error occurred: {:?}", err);
+    }
+    Json(serde_json::json!({"applience": "humidifier", "status": "on"}))
+}
+
+#[get("/humidifier/off")]
+pub async fn office_humidifier_off_handler(_token: Token) -> Json<serde_json::Value> {
+    let humidifier = OfficeDevices::humidifier();
+    let payload = office_setup(&humidifier, "off");
+    let govee_client = GoveeClient::new(&GOVEE_API_KEY);
+    let result = govee_client.control_appliance(payload).await;
+    if let Err(err) = result {
+        panic!("Error occurred: {:?}", err);
+    }
+    Json(serde_json::json!({"applience": "humidifier", "status": "off"}))
+}

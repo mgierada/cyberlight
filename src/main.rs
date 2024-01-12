@@ -11,7 +11,7 @@ use routes::home_routes::home;
 use routes::office_routes::{
     office_board_off_on_handler, office_board_on_handler, office_off_handler, office_on_handler,
     office_table_off_handler, office_table_on_handler, office_window_off_handler,
-    office_window_on_handler,
+    office_window_on_handler, office_humidifier_on_handler, office_humidifier_off_handler,
 };
 use routes::standing_routes::{
     standing_left_off_handler, standing_left_on_handler, standing_right_off_handler,
@@ -66,7 +66,9 @@ fn rocket() -> _ {
                 office_window_on_handler,
                 office_window_off_handler,
                 office_board_on_handler,
-                office_board_off_on_handler
+                office_board_off_on_handler,
+                office_humidifier_on_handler,
+                office_humidifier_off_handler
             ],
         )
         .mount(

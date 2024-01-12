@@ -5,6 +5,7 @@ use govee_api::structs::govee::{GoveeCommand, PayloadBody};
 use crate::constants::enums::{Device, OfficeDevices};
 
 pub fn tv_light_setup(command: &str) -> PayloadBody {
+    // TODO: Do I need this?
     let goove_api_device =
         var("GOVEE_DEVICE_ID_TV_LIGHT").expect("GOVEE_DEVICE_ID_TV_LIGHT must be set");
     let goove_model = var("GOVEE_MODEL_TV_LIGHT").expect("GOVEE_MODEL_TV_LIGHT must be set");
