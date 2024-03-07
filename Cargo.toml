@@ -1,5 +1,5 @@
 [package]
-name = "rust_that_light"
+name = "cyberligth"
 authors = ["Maciej Gierada @mgierada"]
 version = "0.13.0"
 edition = "2021"
@@ -24,6 +24,6 @@ mockito = "1.4.0"
 tokio = {version = "1.36.0", features = ["full"]}
 
 [[bin]]
-name = "rust_that_light"
+name = "cyberligth"
 path = "src/main.rs"
 

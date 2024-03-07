@@ -1,6 +1,6 @@
 <div align="center">
 
-# rust_that_light
+# cyberlight
 
 ## A rust based interface for managing Govee products.
 

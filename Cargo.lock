@@ -194,6 +194,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e496a50fda8aacccc86d7529e2c1e0892dbd0f898a6b5645b5561b89c3210efa"
 
 [[package]]
+name = "cyberligth"
+version = "0.13.0"
+dependencies = [
+ "dotenv",
+ "govee-api",
+ "lazy_static",
+ "mockito",
+ "reqwest",
+ "rocket",
+ "serde",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
 name = "devise"
 version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1215,21 +1230,6 @@ dependencies = [
  "time",
  "tokio",
  "uncased",
-]
-
-[[package]]
-name = "rust_that_light"
-version = "0.13.0"
-dependencies = [
- "dotenv",
- "govee-api",
- "lazy_static",
- "mockito",
- "reqwest",
- "rocket",
- "serde",
- "serde_json",
- "tokio",
 ]
 
 [[package]]
