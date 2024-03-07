@@ -1,5 +1,5 @@
 [package]
-name = "cyberligth"
+name = "cyberlight"
 authors = ["Maciej Gierada @mgierada"]
 version = "0.14.0"
 edition = "2021"
