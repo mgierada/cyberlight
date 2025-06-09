@@ -20,7 +20,7 @@ version = "0.5.1"
 features = ["json"]
 
 [dev-dependencies]
-mockito = "1.6.1"
+mockito = "1.7.0"
 tokio = {version = "1.45.0", features = ["full"]}
 
 [[bin]]
