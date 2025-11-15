@@ -6,6 +6,7 @@ mod tests {
     use std::env;
 
     #[test]
+    #[ignore = "requires ACCESS_TOKEN and GOVEE_API_KEY environment variables"]
     fn test_valid_authorization_token() {
         // This test verifies that a valid token allows access
         let client = Client::untracked(rocket()).expect("valid rocket instance");
@@ -20,6 +21,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore = "requires ACCESS_TOKEN environment variable"]
     fn test_missing_authorization_header() {
         let client = Client::untracked(rocket()).expect("valid rocket instance");
         let response = client.get("/standing/on").dispatch();
@@ -29,6 +31,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore = "requires ACCESS_TOKEN environment variable"]
     fn test_invalid_authorization_token() {
         let client = Client::untracked(rocket()).expect("valid rocket instance");
         let response = client
