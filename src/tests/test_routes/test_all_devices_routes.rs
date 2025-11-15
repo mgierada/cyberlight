@@ -5,6 +5,7 @@ pub mod tests {
     use rocket::local::blocking::Client;
 
     #[test]
+    #[ignore = "requires GOVEE_API_KEY and other environment variables"]
     // TODO: Add validation for each devices fields
     fn test_get_all_devices_handler() {
         let client = Client::untracked(crate::rocket()).expect("valid rocket instance");
@@ -17,6 +18,7 @@ pub mod tests {
     }
 
     #[test]
+    #[ignore = "requires GOVEE_API_KEY and other environment variables"]
     // TODO: Add validation of status fields
     fn test_get_status_for_all_devices() {
         let client = Client::untracked(crate::rocket()).expect("valid rocket instance");
@@ -29,6 +31,7 @@ pub mod tests {
     }
 
     #[test]
+    #[ignore = "requires GOVEE_API_KEY and other environment variables"]
     // TODO: Add validation of properties fields
     fn test_get_status_for_device() {
         let client = Client::untracked(crate::rocket()).expect("valid rocket instance");
