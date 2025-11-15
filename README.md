@@ -32,6 +32,53 @@ Executing the following will compile and run the code:
 cargo run
 ```
 
+# Testing
+
+The project includes a comprehensive test suite covering unit and integration tests.
+
+## Running Tests
+
+To run all passing unit tests:
+
+```bash
+cargo test
+```
+
+This will run 20+ unit tests that don't require external dependencies.
+
+## Integration Tests
+
+Some tests are marked as ignored because they require environment variables and external API access. To run these tests, first set up the required environment variables:
+
+```bash
+export GOVEE_API_KEY="your_govee_api_key"
+export ACCESS_TOKEN="your_access_token"
+export GOVEE_ROOT_URL="https://developer-api.govee.com"
+# ... plus all OFFICE_* device environment variables
+```
+
+Then run all tests including ignored ones:
+
+```bash
+cargo test -- --ignored
+```
+
+Or run all tests together:
+
+```bash
+cargo test -- --include-ignored
+```
+
+## Test Coverage
+
+The test suite covers:
+- **Wrapper functions**: Device data transformation and mapping
+- **Error handlers**: Error response formatting and serialization
+- **Route handlers**: HTTP endpoint behavior (healthcheck, home redirect)
+- **Service layer**: Light setup and device control logic
+- **Data structures**: Constants, enums, and type definitions
+- **Authorization**: Token validation and authentication flows
+
 # Dependencies:
 
 Make sure to install xcode-select:
